@@ -12,6 +12,6 @@
     },
     "scripts": {
         "prepare": "husky install",
-        "test": "echo 'No tests defined yet.'"
+        "test": "echo 'No tests defined yet lol.'"
     }
 }

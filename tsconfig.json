@@ -19,8 +19,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* TypeORM */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": ["app", "test", "vite.config.ts"],
+  "include": ["app", "db", "test", "ormconfig.ts", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

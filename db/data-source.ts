@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import { DataSource } from "typeorm";
-import { User } from "./entity/User.ts";
 
 dotenv.config();
 
@@ -11,11 +10,11 @@ const AppDataSource = new DataSource({
   database: process.env.DB_NAME!,
   username: process.env.DB_USER!,
   password: process.env.DB_PASSWORD!,
-  synchronize: true,
+  synchronize: false,
   logging: false,
-  entities: [User],
-  migrations: ["db/migration/*.ts"],
-  subscribers: ["db/subscriber/*.ts"],
+  entities: ["db/entities/*.ts"],
+  migrations: ["db/migrations/*.ts"],
+  subscribers: ["db/subscribers/*.ts"],
 });
 
 AppDataSource.initialize()

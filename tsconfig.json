@@ -25,6 +25,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["app", "db", "test", "ormconfig.ts", "vite.config.ts"],
+  "include": ["app", "db", "test", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

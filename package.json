@@ -6,6 +6,10 @@
   "scripts": {
     "dev": "vite",
     "server": "node --loader ts-node/esm app/server/server.ts",
+    "migration:run": "npx typeorm-ts-node-esm migration:run -d ./db/data-source.ts",
+    "migration:create": "run() { npx typeorm-ts-node-esm migration:create $1; }; run",
+    "migration:generate": "run() { npx typeorm-ts-node-esm migration:generate $1 -d ./db/data-source.ts; }; run",
+    "migration:revert": "npx typeorm-ts-node-esm migration:revert -d ./db/data-source.ts",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

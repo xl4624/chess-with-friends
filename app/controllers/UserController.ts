@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { validate } from "class-validator";
 
-import { AppDataSource } from "../../db/data-source.ts";
+import { AppDataSource } from "../../db/DataSource.ts";
 import { User } from "../../db/entities/User.ts";
 import { UserModel } from "../types/UserTypes.ts";
 

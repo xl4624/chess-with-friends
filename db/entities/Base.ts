@@ -1,4 +1,4 @@
-import { AppDataSource } from "../data-source.ts";
+import { AppDataSource } from "../DataSource.ts";
 import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from "typeorm";
 import crypto from "crypto";
 
@@ -12,7 +12,7 @@ export abstract class Base {
     unique: true,
     update: false,
   })
-  token?: string;
+  token!: string;
 
   @CreateDateColumn({ update: false })
   createdAt!: Date;

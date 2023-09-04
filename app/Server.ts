@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import "reflect-metadata";
 
-import userRoutes from "./routes/UserRoutes.ts"; // make sure to update this import to the actual location of UserRoutes.ts
+import userRoutes from "./routes/UserRoutes.ts";
 
 // Error-handling middleware
 const errorHandler = (err: Error, _req: Request, res: Response, next: NextFunction): void => {

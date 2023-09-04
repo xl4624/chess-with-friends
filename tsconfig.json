@@ -23,7 +23,10 @@
 
     /* TypeORM */
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+
+    /* Mocha */
+    "types": ["mocha", "chai", "node"]
   },
   "include": ["app", "db", "test", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

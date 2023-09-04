@@ -37,7 +37,6 @@ export const deleteAllUsers = (_req: Request, res: Response, next: NextFunction)
     .catch((err: Error) => next(err));
 };
 
-/* eslint-disable */
 // export const getUserByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
 //   const userToken = req.params.userToken;
 //   // TODO: Implement getUserByToken

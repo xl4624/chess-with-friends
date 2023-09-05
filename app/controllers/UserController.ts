@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { validate } from "class-validator";
+import { plainToClass } from "class-transformer";
 
 import { AppDataSource } from "../../db/DataSource.ts";
 import { User } from "../../db/entities/User.ts";
@@ -13,8 +14,7 @@ export const getAllUsers = (_req: Request, res: Response, next: NextFunction): v
 };
 
 export const createUser = (req: Request<unknown, unknown, UserModel>, res: Response, next: NextFunction): void => {
-  const user = new User();
-  user.username = req.body.username;
+  const user = plainToClass(User, req.body);
 
   validate(user)
     .then((errors) => {

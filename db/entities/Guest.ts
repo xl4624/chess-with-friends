@@ -1,4 +1,4 @@
-import { Entity, Column } from "typeorm";
+import { Column, Entity } from "typeorm";
 
 import { Player } from "./Player.ts";
 

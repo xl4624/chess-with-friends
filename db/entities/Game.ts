@@ -1,33 +1,8 @@
-import { Entity, Column } from "typeorm";
-import {
-  ValidateIf,
-  ValidatorConstraint,
-  ValidatorConstraintInterface,
-  ValidationArguments,
-  Validate,
-} from "class-validator";
+import { Column, Entity } from "typeorm";
+import { IsNotEmpty, Validate } from "class-validator";
 
-import { AppDataSource } from "../DataSource.ts";
 import { Base } from "./Base.ts";
-
-@ValidatorConstraint({ async: true })
-export class PlayerConstraint implements ValidatorConstraintInterface {
-  async validate(value: string) {
-    if (value.startsWith("usr")) {
-      const userRepository = AppDataSource.getRepository("User");
-      return !!(await userRepository.findOne({ where: { token: value } }));
-    } else if (value.startsWith("gst")) {
-      const guestRepository = AppDataSource.getRepository("Guest");
-      return !!(await guestRepository.findOne({ where: { token: value } }));
-    }
-    return false;
-  }
-
-  defaultMessage(args: ValidationArguments) {
-    const value = args.value as string;
-    return `Player with token ${value} cannot be found.`;
-  }
-}
+import { IsDifferent, PlayerConstraint } from "./constraints/GameConstraints.ts";
 
 @Entity()
 export class Game extends Base {
@@ -36,8 +11,9 @@ export class Game extends Base {
     nullable: false,
     update: false,
   })
-  @ValidateIf((o: Game) => o.whitePlayerToken !== o.blackPlayerToken)
+  @IsNotEmpty()
   @Validate(PlayerConstraint)
+  @IsDifferent("blackPlayerToken")
   whitePlayerToken!: string;
 
   @Column({
@@ -45,7 +21,9 @@ export class Game extends Base {
     nullable: false,
     update: false,
   })
+  @IsNotEmpty()
   @Validate(PlayerConstraint)
+  @IsDifferent("whitePlayerToken")
   blackPlayerToken!: string;
 
   @Column({

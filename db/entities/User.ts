@@ -30,4 +30,8 @@ export class User extends Player {
   })
   @IsEmail({}, { message: "Email must be a valid email" })
   email!: string;
+
+  static override getTokenPrefix(): string {
+    return "usr";
+  }
 }

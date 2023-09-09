@@ -17,4 +17,8 @@ export class Guest extends Player {
     nullable: false,
   })
   expiresAt!: Date;
+
+  static override getTokenPrefix(): string {
+    return "gst";
+  }
 }

@@ -2,6 +2,7 @@ import { expect } from "chai";
 
 import { TestDataSource, setup, teardown } from "../DatabaseSetup.ts";
 import { User } from "../../db/entities/User.ts";
+
 describe("User Entity Tests", function () {
   before(async function () {
     await setup(User.name);
@@ -27,20 +28,20 @@ describe("User Entity Tests", function () {
   });
 
   it("should retrieve the user by ID", async function () {
-    const user = await TestDataSource.getRepository(User).findOne({ where: { id: userId } });
+    const user = await TestDataSource.getRepository("User").findOne({ where: { id: userId } });
     expect(user).to.exist;
     expect(user!.username).to.equal("test_user");
   });
 
   it("should update the user", async function () {
-    await TestDataSource.getRepository(User).update(userId, { username: "updated_user" });
-    const user = await TestDataSource.getRepository(User).findOne({ where: { id: userId } });
+    await TestDataSource.getRepository("User").update(userId, { username: "updated_user" });
+    const user = await TestDataSource.getRepository("User").findOne({ where: { id: userId } });
     expect(user!.username).to.equal("updated_user");
   });
 
   it("should delete the user", async function () {
-    await TestDataSource.getRepository(User).delete(userId);
-    const user = await TestDataSource.getRepository(User).findOne({ where: { id: userId } });
+    await TestDataSource.getRepository("User").delete(userId);
+    const user = await TestDataSource.getRepository("User").findOne({ where: { id: userId } });
     expect(user).to.be.null;
   });
 });

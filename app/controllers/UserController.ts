@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { validate } from "class-validator";
-import { plainToClass } from "class-transformer";
+import { plainToClass, plainToInstance } from "class-transformer";
 
 import { AppDataSource } from "../../db/DataSource.ts";
 import { User } from "../../db/entities/User.ts";
-import { UserModel } from "../types/UserTypes.ts";
+import { UserModel, UserParams } from "../types/UserTypes.ts";
 
 export const getAllUsers = (_req: Request, res: Response, next: NextFunction): void => {
   AppDataSource.getRepository("User")
@@ -37,17 +37,33 @@ export const deleteAllUsers = (_req: Request, res: Response, next: NextFunction)
     .catch((err: Error) => next(err));
 };
 
-// export const getUserByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
-//   const userToken = req.params.userToken;
-//   // TODO: Implement getUserByToken
-// };
-//
-// export const updateUserByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
-//   const userToken = req.params.userToken;
-//   // TODO: Implement updateUserByToken
-// };
-//
-// export const deleteByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
-//   const userToken = req.params.userToken;
-//   // TODO: Implement deleteByToken
-// };
+export const getUserByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
+  const userToken = req.params.userToken;
+  AppDataSource.getRepository("User")
+    .find({
+      where: {
+        token: userToken,
+      },
+    })
+    .then((result) => res.send(result))
+    .catch((err: Error) => next(err));
+};
+
+export const updateUserByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
+  const userToken = req.params.userToken;
+  const user = plainToInstance(User, req.body);
+  AppDataSource.getRepository("User")
+    .update({ token: userToken }, user)
+    .then((result) => res.send(result))
+    .catch((err: Error) => next(err));
+};
+
+export const deleteByToken = (req: Request<UserParams>, res: Response, next: NextFunction): void => {
+  const userToken = req.params.userToken;
+  AppDataSource.getRepository("User")
+    .delete({
+      token: userToken,
+    })
+    .then((result) => res.send(result))
+    .catch((err: Error) => next(err));
+};

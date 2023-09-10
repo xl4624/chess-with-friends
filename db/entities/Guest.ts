@@ -1,4 +1,4 @@
-import { Column, Entity } from "typeorm";
+import { BeforeUpdate, Column, Entity } from "typeorm";
 
 import { Player } from "./Player.ts";
 
@@ -20,5 +20,10 @@ export class Guest extends Player {
 
   static override getTokenPrefix(): string {
     return "gst";
+  }
+
+  @BeforeUpdate()
+  updateExpiresAt(): void {
+    this.expiresAt = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
   }
 }

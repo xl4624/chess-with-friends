@@ -7,7 +7,7 @@ const router = Router();
 router.route("/").get(UserController.getAllUsers).post(UserController.createUser);
 
 router
-  .route("/:userToken")
+  .route("/:token")
   .get(UserController.getUserByToken)
   .put(UserController.updateUserByToken)
   .delete(UserController.deleteByToken);

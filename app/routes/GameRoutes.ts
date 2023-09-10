@@ -4,8 +4,12 @@ import * as GameController from "../controllers/GameController.ts";
 
 const router = Router();
 
-router.route("/").get(GameController.getAllGames).post(GameController.createGame).delete(GameController.deleteAllGames);
+router.route("/").get(GameController.getAllGames).post(GameController.createGame);
 
-router.route("/:token").get(GameController.getGame).put(GameController.updateGame).delete(GameController.deleteGame);
+router
+  .route("/:token")
+  .get(GameController.getGameByToken)
+  .put(GameController.updateGameByToken)
+  .delete(GameController.deleteGameByToken);
 
 export default router;

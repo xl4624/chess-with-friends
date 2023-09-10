@@ -7,5 +7,5 @@ export interface UserModel extends PlayerModel {
 }
 
 export interface UserParams {
-  userToken: string;
+  token: string;
 }

@@ -19,8 +19,8 @@ app.get("/api", (_req: Request, res: Response): void => {
   res.send("Server is running");
 });
 
-app.use("/api/users", userRoutes);
-app.use("/api/games", gameRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/game", gameRoutes);
 
 const PORT = 3001;
 app.listen(PORT, (): void => {

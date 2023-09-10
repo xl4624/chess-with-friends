@@ -18,7 +18,7 @@ const AppDataSource = new DataSource({
 });
 
 AppDataSource.initialize()
-  .then(() => {
+  .then((): void => {
     console.log("Data Source has been initialized!");
   })
   .catch((err: unknown) => {

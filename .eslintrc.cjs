@@ -53,7 +53,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["**/*.test.ts", "**/*.test.js", "**/*.spec.ts", "**/*.spec.js"], // adjust this pattern to match your test files
+      files: ["test/**/*.test.ts"],
       rules: {
         "mocha/no-nested-tests": "off"
       }

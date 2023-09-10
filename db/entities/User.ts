@@ -1,5 +1,5 @@
-import { Entity, Column } from "typeorm";
-import { Length, IsNotEmpty, IsEmail } from "class-validator";
+import { Column, Entity } from "typeorm";
+import { IsEmail, IsNotEmpty, Length } from "class-validator";
 
 import { Player } from "./Player.ts";
 
@@ -30,4 +30,8 @@ export class User extends Player {
   })
   @IsEmail({}, { message: "Email must be a valid email" })
   email!: string;
+
+  static override getTokenPrefix(): string {
+    return "usr";
+  }
 }

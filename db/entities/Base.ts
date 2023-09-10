@@ -1,5 +1,5 @@
 import { AppDataSource } from "../DataSource.ts";
-import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert } from "typeorm";
+import { BeforeInsert, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import crypto from "crypto";
 
 export abstract class Base {

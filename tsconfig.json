@@ -28,6 +28,6 @@
     /* Mocha */
     "types": ["mocha", "chai", "node"]
   },
-  "include": ["app", "db", "test", "vite.config.ts"],
+  "include": ["app", "db", "jobs", "test", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

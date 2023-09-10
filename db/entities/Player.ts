@@ -11,8 +11,4 @@ export abstract class Player extends Base {
     default: 1000,
   })
   rating!: number;
-
-  static override getTokenPrefix(): string {
-    return "plr";
-  }
 }

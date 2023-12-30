@@ -1,0 +1,18 @@
+{
+  "name": "chess",
+  "version": "0.1.0",
+  "description": "Chess web application.",
+  "scripts": {
+    "dev": "python app.py",
+    "build": "webpack"
+  },
+  "author": "Xiaomin Liu",
+  "license": "MIT",
+  "dependencies": {
+    "chess.js": "^1.0.0-beta.7"
+  },
+  "devDependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

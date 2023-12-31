@@ -25,18 +25,27 @@ def view(game_id):
     game = db.session.get(Game, str(game_id))
     if not game:
         return "Game not found", 404
+    
+    if game.is_full():
+        return render_template("game_view.html")
+
     if not session.get("user_id"):
         return redirect(url_for("users.create", prev=request.url))
 
-    # if game.player_count < 2:
-    #     game.player_count += 1
-    #     db.session.commit()
-    #     if game.player_count == 2:
-    #         return "Joining game..."
-    #     else:
-    #         return "Waiting for another player..."
+    user_id = session.get("user_id")
+
+    if game.contains_player(user_id):
+        return render_template("waiting.html")
+
+    game.add_player(user_id)
+
+    if game.is_full():
+        game.randomize_players()
+        socketio.emit("start", to=str(game_id))
+    else:
+        return render_template("waiting.html")
+
     return render_template("game_view.html")
-    # return "Spectating game " + str(game_id)
 
 @games.route("/")
 def list():

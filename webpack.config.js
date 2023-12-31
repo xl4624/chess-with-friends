@@ -1,10 +1,10 @@
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+export default {
     entry: './static/main.js',
     output: {
-        path: path.resolve(__dirname, 'static/dist'),
+        path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'static/dist'),
         filename: 'bundle.js', 
     },
-    mode: 'development'
-}
+};

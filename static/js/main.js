@@ -1,12 +1,16 @@
 import { Chess } from 'chess.js';
 
 var socket;
+const gameId = window.location.pathname.split('/')[2];
+
 document.addEventListener('DOMContentLoaded', () => {
     socket = io.connect(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port);
 
 
     socket.on('connect', function() {
-        socket.emit('join', { 'room': window.location.pathname.split('/')[2] });
+        socket.emit('join', {
+            room: gameId,
+        });
     });
 
     // socket.on('join', function(data) {
@@ -42,7 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 to: target,
                 promotion: 'q'  // Default to queen promotion for simplicity
             });
-            socket.emit('move_made', { 'move': move.san, 'room': window.location.pathname.split('/')[2] });
+            socket.emit('move_made', { 
+                move: move.san,
+                room: gameId,
+            });
             game.undo();
         } catch (err) {
             return 'snapback';

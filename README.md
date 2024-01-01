@@ -1,5 +1,29 @@
 # chess
 
+## Setup
+Setup your postgresql database first.
+
+In your postgresql console, run
+```
+CREATE DATABASE flask_api;
+CREATE USER postgres WITH PASSWORD 'postgres';
+GRANT ALL PRIVILEGES ON DATABASE flask_api TO postgres;
+```
+
+Create .env file
+```
+DATABASE_HOST=localhost:5432
+DATABASE_NAME=flask_api
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+```
+
+Then run `pip install -r requirements.txt`.
+
+And then run `flask db upgrade` and then `npm run dev`.
+
+## How it works
+
 Everyone viewing a chess game is going to have a chess.js game running in the frontend. When a spectator joins mid-game, we have two options, we could either have all the moves and send them as a string to do some sort of `load_pgn()` from the move history, or have the fen and just give them the board state. If we ever want to display move history alongside the board, doing it by moves is preferred, but for simplicity I'm down for just the board fen (would have to modify the `Game` model and remove moves and replace with fen).
 - player1 - game() in chess.js
 - player2 - game() in chess.js

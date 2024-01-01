@@ -10,17 +10,16 @@ games = Blueprint("games", __name__)
 def create():
     new_game = Game()
     db.session.add(new_game)
-    db.session.commit()
 
+    db.session.commit()
     return jsonify({"redirect": url_for("games.view", game_id=new_game.id)})
 
 @games.route("/<uuid:game_id>/")
 def view(game_id):
     """
-    If the game exists, is active, and has less than two players,
-    the user joins the game. 
-    If it doesn't exist or isn't active, 404.
-    If it has two players, just spectate the game.
+    If the game linked doesn't exist, 404.
+    If the game has two players, just spectate the game.
+    If the game exists and has less than two players, the user joins the game. 
     """
     game = db.session.get(Game, str(game_id))
     if not game:
@@ -34,17 +33,19 @@ def view(game_id):
         return redirect(url_for("users.create", prev=request.url))
 
     if game.contains_player(user_id):
-        return render_template("waiting.html")
+        return render_template("game_view.html")
 
     game.add_player(user_id)
 
     if game.is_full():
         game.randomize_players()
-        socketio.emit("start", to=str(game_id))
-    else:
-        return render_template("waiting.html")
+        db.session.commit()
 
-    return render_template("game_view.html")
+        socketio.emit("start", to=str(game_id))
+        return render_template("game_view.html") 
+    else:
+        db.session.commit()
+        return render_template("waiting.html")
 
 @games.route("/")
 def list():
@@ -115,5 +116,7 @@ def move_made(data):
         return
     
     game.make_move(move)
+
+    db.session.commit()
     emit("move_made", {"move": move}, to=room)
 

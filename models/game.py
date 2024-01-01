@@ -46,15 +46,12 @@ class Game(db.Model):
         else:
             self.black_player_id = user_id
         self.player_count += 1
-        db.session.commit()
 
     def randomize_players(self):
         players = [self.white_player_id, self.black_player_id]
         random.shuffle(players)
         self.white_player_id, self.black_player_id = players
-        db.session.commit()
     
     def make_move(self, move):
         self.moves.append(move)
-        db.session.commit()
 

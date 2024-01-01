@@ -2,9 +2,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 export default {
-    entry: './static/main.js',
+    entry: './static/js/main.js',
     output: {
-        path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'static/dist'),
+        path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'static/js/dist'),
         filename: 'bundle.js', 
     },
 };

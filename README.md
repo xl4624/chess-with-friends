@@ -3,14 +3,14 @@
 ## Setup
 Setup your postgresql database first.
 
-In your postgresql console, run
+In your postgresql console, run:
 ```
 CREATE DATABASE flask_api;
 CREATE USER postgres WITH PASSWORD 'postgres';
 GRANT ALL PRIVILEGES ON DATABASE flask_api TO postgres;
 ```
 
-Create .env file
+Create .env file using your info:
 ```
 DATABASE_HOST=localhost:5432
 DATABASE_NAME=flask_api

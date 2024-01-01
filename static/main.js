@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('join', { 'room': window.location.pathname.split('/')[2] });
     });
 
-    socket.on('join', function(data) {
-        console.log("join", data.pgn);
-        game.loadPgn('1. e4 e5');   // TODO: Make game.moves store the moves in pgn format, so you can just load the pgn by passing in game.moves
-        board.position(game.fen());
-    })
+    // socket.on('join', function(data) {
+    //     console.log("join", data.pgn);
+    //     game.loadPgn('1. e4 e5');   // TODO: Make game.moves store the moves in pgn format, so you can just load the pgn by passing in game.moves
+    //     board.position(game.fen());
+    // })
 
     socket.on('message', function(data) {
         console.log(data.message);

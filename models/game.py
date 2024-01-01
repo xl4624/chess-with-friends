@@ -1,4 +1,5 @@
 from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.ext.mutable import MutableList
 import uuid
 import random
 
@@ -9,7 +10,7 @@ class Game(db.Model):
     white_player_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
     black_player_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
     player_count = db.Column(db.Integer, default=0)
-    moves = db.Column(ARRAY(db.String(7)))
+    moves = db.Column(MutableList.as_mutable(ARRAY(db.String(7))), default=[])
 
     def __repr__(self):
         return f"<Game {self.id}>"
@@ -26,12 +27,20 @@ class Game(db.Model):
     def is_full(self):
         return self.player_count == 2
 
+    def is_turn(self, user_id):
+        if len(self.moves) % 2 == 0 and user_id != self.white_player_id:
+            return False
+        if len(self.moves) % 2 == 1 and user_id != self.black_player_id:
+            return False
+
+        return True
+
     def contains_player(self, user_id):
         return user_id == self.white_player_id or user_id == self.black_player_id
 
     def add_player(self, user_id):
-        if self.is_full():
-            return
+        if self.is_full(): return
+
         if self.player_count == 0:
             self.white_player_id = user_id
         else:
@@ -45,3 +54,7 @@ class Game(db.Model):
         self.white_player_id, self.black_player_id = players
         db.session.commit()
     
+    def make_move(self, move):
+        self.moves.append(move)
+        db.session.commit()
+

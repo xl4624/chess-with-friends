@@ -1,10 +1,28 @@
 import { Chess } from 'chess.js';
 
+var socket;
 document.addEventListener('DOMContentLoaded', () => {
-    var socket = io.connect('http://${document.domain}:${location.port}');
+    socket = io.connect(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port);
+
+
     socket.on('connect', function() {
         socket.emit('join', { 'room': window.location.pathname.split('/')[2] });
     });
+
+    socket.on('join', function(data) {
+        console.log("join", data.pgn);
+        game.loadPgn('1. e4 e5');   // TODO: Make game.moves store the moves in pgn format, so you can just load the pgn by passing in game.moves
+        board.position(game.fen());
+    })
+
+    socket.on('message', function(data) {
+        console.log(data.message);
+    })
+
+    socket.on('move_made', function(data) {
+        game.move(data.move);
+        board.position(game.fen());
+    })
 
     var game = new Chess();
     var board = null;
@@ -24,6 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 to: target,
                 promotion: 'q'  // Default to queen promotion for simplicity
             });
+            socket.emit('move_made', { 'move': move.san, 'room': window.location.pathname.split('/')[2] });
+            game.undo();
         } catch (err) {
             return 'snapback';
         }

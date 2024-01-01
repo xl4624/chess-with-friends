@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, url_for, redirect, session, request, render_template
-from flask_socketio import send, emit, join_room
+from flask_socketio import emit, join_room
 
 from extensions import db, socketio
 from models import Game
@@ -29,10 +29,9 @@ def view(game_id):
     if game.is_full():
         return render_template("game_view.html")
 
-    if not session.get("user_id"):
-        return redirect(url_for("users.create", prev=request.url))
-
     user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("users.create", prev=request.url))
 
     if game.contains_player(user_id):
         return render_template("waiting.html")
@@ -73,19 +72,48 @@ def list():
 @socketio.on("join")
 def join(data):
     if not session.get("user_id"):
-        send("Not logged in")
-        return
-    if not data.get("room"):
-        send("No room specified")
+        emit("message", {"message": "Not logged in"})
         return
 
-    room = data["room"]
-    print(f"User {session['user_id']} has joined room {data['room']}")
+    room = data.get("room")
+    if not room:
+        emit("message", {"message": "No room specified"})
+        return
+
+    game = db.session.get(Game, room)
+    if not game:
+        emit("message", {"message": "Game not found"})
+        return
+
     join_room(room)
-    send(f"User {session['user_id']} has joined room {data['room']}", to=room)
+    emit("join", {"pgn": game.moves}, to=room)
 
-@socketio.on("move")
-def move(data):
-    if not session.get("user_id"):
-        send("Not logged in")
+@socketio.on("move_made")
+def move_made(data):
+    user_id = session.get("user_id")
+    if not user_id:
+        emit("message", {"message": "Not logged in"})
         return
+
+    room = data.get("room")
+    move = data.get("move")
+    if not room or not move:
+        emit("message", {"message": "Invalid data"})
+        return
+
+    game = db.session.get(Game, room)
+    if not game:
+        emit("message", {"message": "Game not found"})
+        return
+    
+    if not game.contains_player(user_id):
+        emit("message", {"message": "You are not in this game"})
+        return
+
+    if not game.is_turn(user_id):
+        emit("message", {"message": "Not your turn"})
+        return
+    
+    game.make_move(move)
+    emit("move_made", {"move": move}, to=room)
+

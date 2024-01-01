@@ -33,7 +33,10 @@ def view(game_id):
         return redirect(url_for("users.create", prev=request.url))
 
     if game.contains_player(user_id):
-        return render_template("game_view.html")
+        if game.is_full():
+            return render_template("game_view.html")
+        else:
+            return render_template("waiting.html")
 
     game.add_player(user_id)
 

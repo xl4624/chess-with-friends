@@ -29,13 +29,17 @@ FlaskUUID(app)
 app.register_blueprint(games, url_prefix="/games")
 app.register_blueprint(users, url_prefix="/users")
 
+
 @app.route("/todo/")
 def todo():
     return render_template("todo.html")
+
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
 if __name__ == "__main__":
     socketio.run(app, use_reloader=True, log_output=True, host="localhost", port=3000)
+

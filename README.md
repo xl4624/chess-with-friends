@@ -43,12 +43,20 @@ Everyone viewing a chess game is going to have a chess.js game running in the fr
 
 ## Todo
 In order of priority:
-- [x] Update the board when a player/spectator joins mid-game (need to iterate through all the moves in `game.moves` and add move number to every other move, and then call `game.loadPgn(pgn)` from chess.js).
-- [ ] Add some error handling for when a move is invalid.
-- [ ] Add a way to choose promotion piece, right now it just defaults to queen.
+- [x] Update the board when a player/spectator joins mid-game.
+- [ ] Add a way to choose promotion piece, right now it just defaults to queen
+    - [ ] Right now we could just use `prompt()` in JavaScript to ask the user to choose a piece
+    - [ ] In the future, we could have a modal popup with the pieces and the user can click on the piece they want to promote to
 - [ ] Invert the chessboard for the black player.
 - [ ] Add a way to resign/offer a draw.
+- [ ] Add usernames to the game view page.
 - [ ] Fix up the frontend to look nicer using the color themes.
-- [ ] Add a way to display move history.
+- [ ] Add a way to display move history (in a striped table or something).
 - [ ] Add an in-game chat feature.
-- [ ] Add playing against a computer.
+- [ ] Work on the against a computer feature.
+    - [ ] These are my intial ideas on how we should approach this:
+    - [ ] Don't use any of the `Game` or `User` models, we don't need to store any of this in the database
+    - [ ] Have the user run a `chess.js` game instance in the frontend maybe in some route like `/computer`
+    - [ ] Then whenever the user nakes a move, `chess.js` can validate it and then send it to the backend
+    - [ ] Then the backend can make this move in their `python-chess` game instance and then do **ai stuff** to make a move to send back to the frontend
+    - [ ] (You can choose how you want to do the communication with, I'm thinking websockets but you might be able to get away with just using request/response)

@@ -1,10 +1,19 @@
-from flask import Blueprint, jsonify, url_for, redirect, session, request, render_template
+from flask import (
+    Blueprint,
+    jsonify,
+    url_for,
+    redirect,
+    session,
+    request,
+    render_template,
+)
 from flask_socketio import emit, join_room
 
 from extensions import db, socketio
 from models import Game
 
 games = Blueprint("games", __name__)
+
 
 @games.route("/create/", methods=["POST"])
 def create():
@@ -13,6 +22,7 @@ def create():
 
     db.session.commit()
     return jsonify({"redirect": url_for("games.view", game_id=new_game.id)})
+
 
 @games.route("/<uuid:game_id>/")
 def view(game_id):
@@ -50,6 +60,7 @@ def view(game_id):
         db.session.commit()
         return render_template("waiting.html")
 
+
 @games.route("/")
 def list():
     """
@@ -59,8 +70,8 @@ def list():
     output = "<html><body>"
     for game in games:
         game_link = url_for("games.view", game_id=game.id, _external=True)
-        output += f'<input type="text" value="{game_link}" id="game_{game.id}">'
-        output += f'<button onclick="copyToClipboard(\'game_{game.id}\')">Copy</button><br>'
+        output += f"<input type='text' value='{game_link}' id='game_{game.id}'>"
+        output += f"<button onclick=\"copyToClipboard('game_{game.id}')\">Copy</button><br>"
     output += """
         <script>
         function copyToClipboard(elementId) {
@@ -72,6 +83,7 @@ def list():
         </body></html>"""
 
     return output
+
 
 @socketio.on("join")
 def join(data):
@@ -87,6 +99,7 @@ def join(data):
 
     join_room(room)
     emit("join", {"pgn": game.pgn()}, to=room)
+
 
 @socketio.on("move_made")
 def move_made(data):

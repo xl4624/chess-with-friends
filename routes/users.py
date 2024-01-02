@@ -5,6 +5,7 @@ from models import User
 
 users = Blueprint("users", __name__)
 
+
 @users.route("/create/", methods=["GET", "POST"])
 def create():
     if not session.get("url"):
@@ -24,12 +25,13 @@ def create():
 
     return render_template("user_create.html")
 
+
 @users.route("/")
 def list_all():
     users = User.query.all()
     output = "<html><body>"
     for user in users:
-        output += f'<p>{user.username}</p>'
+        output += f"<p>{user.username}</p>"
     output += "</body></html>"
 
     return output

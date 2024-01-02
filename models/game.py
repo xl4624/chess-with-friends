@@ -5,6 +5,7 @@ import random
 
 from extensions import db
 
+
 class Game(db.Model):
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     white_player_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
@@ -34,7 +35,7 @@ class Game(db.Model):
             "white_player_id": self.white_player_id,
             "black_player_id": self.black_player_id,
             "player_count": self.player_count,
-            "moves": self.moves
+            "moves": self.moves,
         }
 
     def is_full(self):
@@ -49,7 +50,9 @@ class Game(db.Model):
         return True
 
     def contains_player(self, user_id):
-        return user_id == self.white_player_id or user_id == self.black_player_id
+        return user_id is not None and (
+            user_id == self.white_player_id or user_id == self.black_player_id
+        )
 
     def add_player(self, user_id):
         if self.is_full(): return

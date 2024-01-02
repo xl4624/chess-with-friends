@@ -75,10 +75,6 @@ def list():
 
 @socketio.on("join")
 def join(data):
-    if not session.get("user_id"):
-        emit("message", {"message": "Not logged in"})
-        return
-
     room = data.get("room")
     if not room:
         emit("message", {"message": "No room specified"})
@@ -90,7 +86,7 @@ def join(data):
         return
 
     join_room(room)
-    emit("join", {"pgn": game.moves}, to=room)
+    emit("join", {"pgn": game.pgn()}, to=room)
 
 @socketio.on("move_made")
 def move_made(data):
@@ -117,9 +113,9 @@ def move_made(data):
     if not game.is_turn(user_id):
         emit("message", {"message": "Not your turn"})
         return
-    
-    game.make_move(move)
 
+    game.make_move(move)
     db.session.commit()
+
     emit("move_made", {"move": move}, to=room)
 

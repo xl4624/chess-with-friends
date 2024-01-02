@@ -15,6 +15,19 @@ class Game(db.Model):
     def __repr__(self):
         return f"<Game {self.id}>"
 
+    def pgn(self) -> str:
+        pgn = []
+        move_number = 1
+
+        for i, move in enumerate(self.moves):
+            if i % 2 == 0:
+                pgn.append(f"{move_number}.")
+                move_number += 1
+
+            pgn.append(move)
+
+        return " ".join(pgn)
+
     def to_dict(self):
         return {
             "id": self.id,

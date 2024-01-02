@@ -43,7 +43,7 @@ Everyone viewing a chess game is going to have a chess.js game running in the fr
 
 ## Todo
 In order of priority:
-- [ ] Update the board when a player/spectator joins mid-game (need to iterate through all the moves in `game.moves` and add move number to every other move, and then call `game.loadPgn(pgn)` from chess.js).
+- [x] Update the board when a player/spectator joins mid-game (need to iterate through all the moves in `game.moves` and add move number to every other move, and then call `game.loadPgn(pgn)` from chess.js).
 - [ ] Add some error handling for when a move is invalid.
 - [ ] Add a way to choose promotion piece, right now it just defaults to queen.
 - [ ] Invert the chessboard for the black player.

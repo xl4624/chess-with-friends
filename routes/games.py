@@ -46,7 +46,7 @@ def view(game_id):
         if game.is_full():
             return render_template("game_view.html")
         else:
-            return render_template("waiting.html")
+            return render_template("waiting_room.html")
 
     game.add_player(user_id)
 
@@ -58,7 +58,7 @@ def view(game_id):
         return render_template("game_view.html") 
     else:
         db.session.commit()
-        return render_template("waiting.html")
+        return render_template("waiting_room.html")
 
 
 @games.route("/")

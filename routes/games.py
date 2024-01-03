@@ -132,3 +132,9 @@ def move_made(data):
 
     emit("move_made", {"move": move}, to=room)
 
+@socketio.on("chat")
+def chat(data):
+    print(f"New message: {data}")
+    emit("chat", {"message": data}, broadcast=True)
+
+

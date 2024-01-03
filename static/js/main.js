@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
         board.position(game.fen());
     })
 
+    socket.on('chat', function(data) {
+        
+    })
+
     var game = new Chess();
     var board = null;
 

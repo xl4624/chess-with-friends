@@ -87,3 +87,9 @@ a {
     border-color: var(--highlight-high);
 }
 
+ul {
+    height: 250px;
+    color:#000;
+    background-color: white;
+    overflow-y: scroll;
+}

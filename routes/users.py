@@ -20,7 +20,6 @@ def create():
         db.session.add(new_user)
         db.session.commit()
         session["user_id"] = new_user.id
-
         return redirect(session.pop("url", url_for("index", _external=True)))
 
     return render_template("user_create.html")

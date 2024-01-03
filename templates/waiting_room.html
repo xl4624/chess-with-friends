@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Waiting{% endblock %}
-
 {% block content %}
-<p>Waiting for the other player to join...</p>
+<h2>Waiting for players</h2>
+<p>Share this link with your friend to start the game:</p>
 <input type="text" value="{{ request.url }}" id="gameLink" readonly>
 <button onclick="copyToClipboard('gameLink')">Copy link</button>
 {% endblock %}

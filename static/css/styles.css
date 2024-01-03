@@ -47,43 +47,87 @@ a {
     cursor: default;
 }
 
-/* Button Styles */
+/* index.html */
 
-.button-container {
+.index-container {
     display: flex;
     flex-direction: column;
     margin-left: auto;
     margin-right: auto;
     padding: 1rem;
     width: max-content;
+    gap: 1rem;
 }
 
-.button {
+.index-container .button {
     background-color: var(--surface);
     border: 2px solid var(--overlay);
     border-radius: 0.5rem;
     cursor: pointer;
     font-weight: bold;
     letter-spacing: 0.1rem;
-    margin-bottom: 1rem;
     padding: 1rem 2rem;
     text-align: center;
     text-transform: uppercase;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
     width: 100%;
 }
 
-.button-container .button:last-child {
-    margin-bottom: 0;
-}
-
-.button:hover, .button:focus {
+.index-container .button:hover, .button:focus {
     background-color: var(--highlight-med);
     border-color: var(--highlight-high);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.button:active {
+.index-container .button:active {
     background-color: var(--highlight-high);
     border-color: var(--highlight-high);
+    transition: none;
 }
 
+/* user_create.html */
+.user-create-container {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px var(--muted);
+    margin: 2rem auto;
+    padding: 1rem;
+    text-align: center;
+    width: max-content;
+}
+
+.user-create-container .form-header {
+    margin: 1rem 10vw;
+}
+
+.user-create-container form {
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.user-create-container label {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.user-create-container input[type="text"] {
+    border: 2px solid var(--iris);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+}
+
+.user-create-container input[type="submit"] {
+    background-color: var(--rose);
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--highlight-low);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    text-transform: uppercase;
+}
+
+/* waiting_room.html */

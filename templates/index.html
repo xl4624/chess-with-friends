@@ -1,31 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="button" id="createGameButton">
-    Play against a friend
-</div>
-<div class="button">
-    <a href="{{ url_for('todo') }}">Play against the computer</a>
-</div>
-{% endblock %}
+    <div class="button-container">
+        <div class="button" id="createGameButton">
+            Play against a friend
+        </div>
+        <div class="button">
+            <a href="{{ url_for('todo') }}">Play against the computer</a>
+        </div>
+    </div>
+    {% endblock %}
 
-{% block scripts %}
-<script type="text/javascript">
+    {% block scripts %}
+    <script type="text/javascript">
     document.getElementById("createGameButton").addEventListener("click", function() {
-    fetch("games/create", {
-        method: "POST",
-    })
-        .then(response => {
-            return response.json();
+        fetch("games/create", {
+            method: "POST",
         })
-        .then(data => {
-            if (data.redirect) {
-                window.location.href = data.redirect;
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        })
-});
-</script>
-{% endblock %}
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    });
+    </script>
+    {% endblock %}

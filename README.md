@@ -51,6 +51,7 @@ In order of priority:
 - [ ] Add a way to resign/offer a draw.
 - [ ] Add usernames to the game view page.
 - [ ] Fix up the frontend to look nicer using the color themes.
+    - [ ] I think we soon might have to consider to break up the `styles.css` file into multiple css files to mirror their html counterparts, same with JavaScript files.
 - [ ] Add a way to display move history (in a striped table or something).
 - [ ] Add an in-game chat feature.
 - [ ] Work on the against a computer feature.

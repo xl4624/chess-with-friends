@@ -4,33 +4,9 @@
 <h2>Waiting for players</h2>
 <p>Share this link with your friend to start the game:</p>
 <input type="text" value="{{ request.url }}" id="gameLink" readonly>
-<button onclick="copyToClipboard('gameLink')">Copy link</button>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
-<script type="text/javascript">
-    var socket;
-    const gameId = window.location.pathname.split('/')[2];
-    document.addEventListener('DOMContentLoaded', () => {
-        socket = io.connect(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port);
-
-        socket.on('connect', function() {
-            socket.emit('join', {
-                room: gameId,
-            });
-        });
-
-        socket.on('start', function() {
-            // Refresh the page to trigger the active game view.
-            window.location.reload();
-        });
-    });
-    function copyToClipboard(elementId) {
-        var copyText = document.getElementById(elementId);
-        copyText.select();
-        document.execCommand("copy");
-        window.getSelection().removeAllRanges();
-    }
-</script>
+<script src={{ url_for('static', filename='js/dist/waiting_room.bundle.js') }}></script>
 {% endblock %}

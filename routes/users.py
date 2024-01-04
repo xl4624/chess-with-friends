@@ -14,8 +14,8 @@ def create():
     if request.method == "POST":
         username = request.form.get("username")
         if not username:
-            return "Username required", 400
-        
+            return render_template("user_create.html", error="Username is required")
+
         new_user = User(username=username)
         db.session.add(new_user)
         db.session.commit()
@@ -25,6 +25,7 @@ def create():
     return render_template("user_create.html")
 
 
+# TODO: Delete this route before deploying
 @users.route("/")
 def list_all():
     users = User.query.all()

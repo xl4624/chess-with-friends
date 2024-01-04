@@ -11,8 +11,16 @@
         <title>{% block title %}Chess{% endblock %}</title>
     </head>
     <body>
+        {% if info %}
+            <div class="info">{{ info }}</div>
+        {% elif warning %}
+            <div class="warning">{{ warning }}</div>
+        {% elif error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
         <h1><a href="{{ url_for('index') }}">Chess</a></h1>
-        
+
         {% block content %}
         {% endblock %}
         {% block scripts %}

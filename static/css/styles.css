@@ -1,4 +1,4 @@
-/* Credits: https://rosepinetheme.com/palette/ingredients/ */
+/* Color theme credit to https://rosepinetheme.com/palette/ingredients/ */
 :root {
     --base: #191724;
     --surface: #1f1d2e;
@@ -31,6 +31,33 @@ body {
     color: var(--text);
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.6rem;
+}
+
+/* Error messages credit to https://codepen.io/palimadra/pen/OVvbaY */
+.info, .success, .warning, .error, .validation {
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 15px 10px 15px 50px;
+}
+
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    background-image: url('https://i.imgur.com/ilgqWuX.png');
+}
+
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('https://i.imgur.com/Z8q7ww7.png');
+}
+
+.error{
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('https://i.imgur.com/GnyDvKN.png');
 }
 
 /* div { */

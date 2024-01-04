@@ -14,7 +14,7 @@
     {% block scripts %}
     <script type="text/javascript">
     document.getElementById("createGameButton").addEventListener("click", function() {
-        fetch("games/create", {
+        fetch("games/create/", {
             method: "POST",
         })
             .then(response => {

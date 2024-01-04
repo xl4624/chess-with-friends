@@ -10,7 +10,7 @@ from flask import (
 from flask_socketio import emit, join_room
 
 from extensions import db, socketio
-from models import Game
+from models import Game, User
 
 games = Blueprint("games", __name__)
 
@@ -42,11 +42,15 @@ def view(game_id):
     if not user_id:
         return redirect(url_for("users.create", prev=request.url))
 
+    user = db.session.get(User, user_id)
+    if not user:
+        return redirect(url_for("users.create", prev=request.url))
+
     if game.contains_player(user_id):
         if game.is_full():
             return render_template("game_view.html")
         else:
-            return render_template("waiting_room.html")
+            return render_template("waiting_room.html", username=user.username)
 
     game.add_player(user_id)
 
@@ -58,7 +62,7 @@ def view(game_id):
         return render_template("game_view.html") 
     else:
         db.session.commit()
-        return render_template("waiting_room.html")
+        return render_template("waiting_room.html", username=user.username)
 
 
 @games.route("/")
@@ -136,5 +140,4 @@ def move_made(data):
 def chat(data):
     print(f"New message: {data}")
     emit("chat", {"message": data}, broadcast=True)
-
 

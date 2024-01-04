@@ -74,6 +74,7 @@ a {
     cursor: default;
 }
 
+
 /* index.html */
 
 .index-container {
@@ -118,7 +119,9 @@ ul {
     overflow-y: scroll;
 }
 
+
 /* user_create.html */
+
 .user-create-container {
     background-color: var(--surface);
     border-radius: 0.5rem;
@@ -164,6 +167,55 @@ ul {
     text-transform: uppercase;
 }
 
+
+/* waiting_room.html */
+
+.waiting-room-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.waiting-room-container .header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.waiting-room-container .input-group {
+    position: relative;
+    width: 80%;
+    margin: auto;
+}
+
+.waiting-room-container #gameLink {
+    background-color: var(--rose);
+    border: 1px solid var(--highlight-low);
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    min-width: 20rem;
+    padding: 1rem;
+    padding-right: 2rem;
+    width: 100%;
+}
+
+.waiting-room-container #gameLink:focus {
+    outline: none;
+}
+
+.waiting-room-container .copy-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+}
+
+
 /* game_view.html */
 
 .game-view-container {
@@ -172,14 +224,14 @@ ul {
     height: 700px;
 }
 
-#board {
+.game-view-container #board {
     display: inline-block;
     margin-left: auto;
     margin-right: 20px;
     width: 700px;
 }
 
-#chat {
+.game-view-container #chat {
     border: 1px;
     display: flex;
     flex-direction: column;
@@ -187,7 +239,7 @@ ul {
     width: 350px;
 }
 
-#chatMessage {
+.game-view-container #chatMessage {
     background-color: var(--overlay);
     color: var(--text);
     flex: 1;
@@ -196,13 +248,11 @@ ul {
     padding: 10px;
 }
 
-#chatMessage li {
+.game-view-container #chatMessage li {
     padding: 0;
 }
 
-#message {
+.game-view-container #message {
     background-color: var(--overlay);
     color: var(--text);
 }
-
-/* waiting_room.html */

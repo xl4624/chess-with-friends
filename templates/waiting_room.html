@@ -1,12 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Waiting for players</h2>
-<p>Share this link with your friend to start the game:</p>
-<input type="text" value="{{ request.url }}" id="gameLink" readonly>
+<div class="waiting-room-container">
+    <div class="header">Waiting for players</div>
+    <p>Hey {{ username }}, share this link with your friend to start the game:</p>
+    <div class="input-group">
+        <input type="text" value="{{ request.url }}" id="gameLink" readonly>
+        <button onclick="copyToClipboard('gameLink')" class="copy-button">
+            <i class="fa-solid fa-copy"></i>
+        </button>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
 <script src={{ url_for('static', filename='dist/waiting_room.bundle.js') }}></script>
+<script type="text/javascript">
+    function copyToClipboard(elementId) {
+        var copyText = document.getElementById(elementId);
+        copyText.select();
+        document.execCommand("copy");
+    }
+</script>
 {% endblock %}

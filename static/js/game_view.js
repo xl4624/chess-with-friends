@@ -4,7 +4,7 @@ var socket;
 const gameId = window.location.pathname.split('/')[2];
 
 document.addEventListener('DOMContentLoaded', () => {
-    socket = io.connect(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port);
+    socket = io()
 
 
     socket.on('connect', function() {

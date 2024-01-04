@@ -8,6 +8,7 @@ export default {
     entry: glob.sync('./static/js/**/*.js').reduce((acc, path) => {
         const filePath = path.startsWith('./') ? path : './' + path;
         const entry = filePath
+            .replace(/\\/g, '/')
             .replace('./static/js/', '')
             .replace(/\.js$/, '');
         acc[entry] = filePath;

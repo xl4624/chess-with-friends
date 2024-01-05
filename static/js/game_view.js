@@ -27,8 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
         board.position(game.fen());
     })
 
-    socket.on('chat', function(data) {
-        
+    socket.on("chat", function (data) {
+        let ul = document.getElementById("chatMessage");
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(data.username + ": " + data.message));
+        ul.appendChild(li);
+        ul.scrollTop = ul.scrollHeight;
     })
 
     var game = new Chess();
@@ -62,6 +66,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function onSnapEnd() {
         board.position(game.fen());
     }
+
+    document.getElementById("message").addEventListener("keyup", function (event) {
+        if (event.key == "Enter") {
+            let message = document.getElementById("message").value;
+            console.log(message);
+            socket.emit("chat", {message: message,
+                                 room: gameId,});
+            document.getElementById("message").value = "";
+        }
+    })
 
     var config = {
         draggable: true,

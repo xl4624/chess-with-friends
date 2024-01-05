@@ -41,7 +41,7 @@ def view(game_id):
     user_id = session.get("user_id")
     if not user_id:
         return redirect(url_for("users.create", prev=request.url))
-
+    
     user = db.session.get(User, user_id)
     if not user:
         return redirect(url_for("users.create", prev=request.url))
@@ -138,6 +138,12 @@ def move_made(data):
 
 @socketio.on("chat")
 def chat(data):
-    print(f"New message: {data}")
-    emit("chat", {"message": data}, broadcast=True)
-
+    user_id = session.get("user_id")
+    user = db.session.get(User, user_id)
+    room = data.get("room")
+    game = db.session.get(Game,room)
+    m = data.get("message")
+    if game.contains_player(user_id):
+        print(f"New message: {m}")
+        username = user.username
+        emit("chat", {"username": username, "message": m}, broadcast=True)

@@ -1,0 +1,43 @@
+.header {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    margin: 2rem 0;
+}
+
+p {
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+.input-group {
+    position: relative;
+    width: 80%;
+    margin: 1rem;
+}
+
+#gameLink {
+    background-color: var(--rose);
+    border: 1px solid var(--highlight-low);
+    border-radius: 1rem;
+    font-size: 2rem;
+    min-width: 20rem;
+    padding: 1rem;
+    padding-right: 2rem;
+    width: 100%;
+}
+
+#gameLink:focus {
+    outline: none;
+}
+
+button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    width: auto;
+}
+

@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/waiting_room.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="waiting-room-container">
     <div class="header">Waiting for players</div>
     <p>Hey {{ username }}, share this link with your friend to start the game:</p>
     <div class="input-group">
         <input type="text" value="{{ request.url }}" id="gameLink" readonly>
-        <button onclick="copyToClipboard('gameLink')" class="copy-button">
-            <i class="fa-solid fa-copy"></i>
+        <button onclick="copyToClipboard('gameLink')">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="21" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M208 0H332.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V336c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V48c0-26.5 21.5-48 48-48zM48 128h80v64H64V448H256V416h64v48c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48z"/></svg>
         </button>
     </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
-<script src={{ url_for('static', filename='dist/waiting_room.bundle.js') }}></script>
-<script type="text/javascript">
-    function copyToClipboard(elementId) {
-        var copyText = document.getElementById(elementId);
-        copyText.select();
-        document.execCommand("copy");
-    }
-</script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
+    <script src={{ url_for('static', filename='dist/waiting_room.bundle.js') }}></script>
+    <script type="text/javascript">
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand("copy");
+        }
+    </script>
 {% endblock %}

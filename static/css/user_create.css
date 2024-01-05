@@ -1,0 +1,56 @@
+.user-create-container {
+    background-color: var(--surface);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px var(--muted);
+    margin: 1rem auto;
+    padding: 1rem;
+    text-align: center;
+    width: max-content;
+}
+
+.form-header {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    margin: 1rem 10vw;
+}
+
+form {
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+label {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"] {
+    border: none;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    outline: 2px solid var(--highlight-low);
+    padding: 0.5rem;
+}
+
+input[type="text"]:focus {
+    border: none;
+    outline: 2px solid var(--gold);
+    transition: outline 0.3s easee;
+}
+
+input[type="submit"] {
+    background-color: var(--rose);
+    border: 2px solid var(--highlight-low);
+    border-radius: 0.5rem;
+    color: var(--highlight-low);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    text-transform: uppercase;
+}
+

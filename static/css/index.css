@@ -1,0 +1,37 @@
+.index-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+    width: max-content;
+    gap: 1rem;
+}
+
+button, .index-container a {
+    background-color: var(--surface);
+    border: 2px solid var(--overlay);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+button:hover, button:focus, .index-container a:hover, .index-container a:focus {
+    background-color: var(--highlight-med);
+    border-color: var(--highlight-high);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+button:active, .index-container a:active {
+    background-color: var(--highlight-high);
+    border-color: var(--highlight-high);
+    transition: none;
+}
+

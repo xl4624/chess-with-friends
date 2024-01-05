@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_create.css') }}">
+{% endblock %}
+
 {% block content %}
     <div class="user-create-container">
         <h2 class="form-header">Choose your username</h2>

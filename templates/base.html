@@ -7,23 +7,23 @@
         <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/chessboard-1.0.0.min.css') }}">
-        <script src="https://kit.fontawesome.com/2a419cd134.js" crossorigin="anonymous"></script>
+        {% block styles %}
+        {% endblock %}
         <title>{% block title %}Chess{% endblock %}</title>
     </head>
     <body>
-        {% if info %}
-            <div class="info">{{ info }}</div>
-        {% elif warning %}
-            <div class="warning">{{ warning }}</div>
-        {% elif error %}
-            <div class="error">{{ error }}</div>
-        {% endif %}
-
-        <h1><a href="{{ url_for('index') }}">Chess</a></h1>
-
-        {% block content %}
-        {% endblock %}
+        <div class="container">
+            {% if info %}
+                <div class="info">{{ info }}</div>
+            {% elif warning %}
+                <div class="warning">{{ warning }}</div>
+            {% elif error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+            <h1><a href="{{ url_for('index') }}">Chess</a></h1>
+            {% block content %}
+            {% endblock %}
+        </div>
         {% block scripts %}
         {% endblock %}
     </body>

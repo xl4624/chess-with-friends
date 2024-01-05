@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
 {% block content %}
     <div class="index-container">
-        <div class="button" id="createGameButton">
+        <button id="createGameButton">
             Play against a friend
-        </div>
-        <div class="button">
-            <a href="{{ url_for('todo') }}">Play against the computer</a>
-        </div>
+        </button>
+        <a href="{{ url_for('todo') }}">Play against the computer</a>
     </div>
     {% endblock %}
 

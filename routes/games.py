@@ -102,7 +102,13 @@ def join(data):
         return
 
     join_room(room)
-    emit("join", {"pgn": game.pgn()}, to=room)
+
+    user_id = session.get("user_id")
+    
+    if user_id == game.black_player_id:
+        emit("join", {"pgn": game.pgn(), "invert": True}, to=room)
+    else:
+        emit("join", {"pgn": game.pgn()}, to=room)
 
 
 @socketio.on("move_made")

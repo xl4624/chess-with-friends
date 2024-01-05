@@ -1,25 +1,161 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="game-view-container">
-    <div id="board"></div>
-    <div id="chat">
-        <ul id="chatMessage">
-        </ul>
-        <input id="message" placeholder="Send a message!" type="text">
-    </div>
-</div>
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chessboard-1.0.0.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_view.css') }}">
+{% endblock %}
 
+{% block content %}
+    <div class="game-view-container">
+        <div id="board"></div>
+        <div class="game-interaction-section">
+            <div class="move-history-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Move</th>
+                            <th>White</th>
+                            <th>Black</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Move history will be listed here -->
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>e4</td>
+                            <td>e5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chat-wrapper">
+                <ul id="chatMessage">
+                <!-- Chat messages will be listed here -->
+                </ul>
+                <input id="message" placeholder="Send a message!" type="text">
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
-<script crossorigin="anonymous"
-        integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
-        src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>var pieceThemePath = "{{ url_for('static', filename='img/chesspieces/wikipedia/') }}{piece}.png"</script>
-<script src="{{ url_for('static', filename='js/chessboard-1.0.0.min.js') }}"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
-        src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script src="{{ url_for('static', filename='dist/game_view.bundle.js') }}"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+            src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>var pieceThemePath = "{{ url_for('static', filename='img/chesspieces/wikipedia/') }}{piece}.png"</script>
+    <script src="{{ url_for('static', filename='js/chessboard-1.0.0.min.js') }}"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
+            src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='dist/game_view.bundle.js') }}"></script>
 {% endblock %}

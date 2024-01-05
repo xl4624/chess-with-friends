@@ -1,0 +1,112 @@
+div {
+    /* border: 1px solid red; */
+}
+
+.game-view-container {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    justify-content: center;
+    gap: 5rem;
+    width: 100%;
+}
+
+#board {
+    align-items: center;
+    display: flex;
+    height: 45vw;
+    justify-content: center;
+    max-height: 80vh;
+    max-width: 80vh;
+    width: 45vw;
+}
+
+.game-interaction-section {
+    display: flex;
+    flex-direction: column;
+    height: 45vw;
+    max-height: 80vh;
+    overflow: hidden;
+    width: 40vw;
+}
+
+.move-history-wrapper {
+    background-color: var(--overlay);
+    flex-basis: 60%;
+    flex-grow: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.move-history-wrapper table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.move-history-wrapper thead {
+    background-color: var(--overlay);
+    box-shadow: 0 4px 8px var(--muted);
+    position: sticky;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.move-history-wrapper tr {
+    text-align: center;
+}
+
+.move-history-wrapper tr:nth-child(even) {
+    background-color: var(--surface);
+}
+
+.move-history-wrapper tr:nth-child(odd) {
+    background-color: var(--overlay);
+}
+
+.move-history-wrapper td {
+    border-left: 2px solid var(--muted);
+    border-right: 2px solid var(--muted);
+    padding: 0.5rem;
+}
+
+.chat-wrapper {
+    flex-basis: 40%;
+    flex-grow: 1;
+    max-height: 40%;
+}
+
+#chat {
+    border: 1px;
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
+    width: 100%;
+}
+
+ul {
+    height: 180px;
+    color: #000;
+    background-color: white;
+    overflow-y: scroll;
+}
+
+
+#chatMessage {
+    background-color: var(--overlay);
+    color: var(--text);
+    flex: 1;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+}
+
+#chatMessage li {
+    padding: 0;
+}
+
+#message {
+    background-color: var(--overlay);
+    color: var(--text);
+}

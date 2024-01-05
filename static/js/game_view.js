@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('join', function(data) {
         game.loadPgn(data.pgn);
+        if (data.invert) {
+            board.orientation('black');
+        }
         board.position(game.fen());
     })
 

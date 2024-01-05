@@ -41,7 +41,7 @@ def view(game_id):
     user_id = session.get("user_id")
     if not user_id:
         return redirect(url_for("users.create", prev=request.url))
-    
+
     user = db.session.get(User, user_id)
     if not user:
         return redirect(url_for("users.create", prev=request.url))
@@ -136,14 +136,30 @@ def move_made(data):
 
     emit("move_made", {"move": move}, to=room)
 
+
 @socketio.on("chat")
 def chat(data):
     user_id = session.get("user_id")
+    if not user_id:
+        emit("message", {"message": "Not logged in"})
+        return
+
     user = db.session.get(User, user_id)
+    if not user:
+        emit("message", {"message": "User not found"})
+        return
+
     room = data.get("room")
+    if not room:
+        emit("message", {"message": "No room specified"})
+        return
+
     game = db.session.get(Game,room)
-    m = data.get("message")
+    if not game:
+        emit("message", {"message": "Game not found"})
+        return
+
+    message = data.get("message")
     if game.contains_player(user_id):
-        print(f"New message: {m}")
-        username = user.username
-        emit("chat", {"username": username, "message": m}, broadcast=True)
+        emit("chat", {"username": user.username, "message": message}, to=room)
+

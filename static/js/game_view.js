@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         board.position(game.fen());
     })
 
-    socket.on("chat", function (data) {
+    socket.on("chat", function(data) {
         let ul = document.getElementById("chatMessage");
         let li = document.createElement("li");
         li.appendChild(document.createTextNode(data.username + ": " + data.message));
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 to: target,
                 promotion: 'q'  // Default to queen promotion for simplicity
             });
-            socket.emit('move_made', { 
+            socket.emit('move_made', {
                 move: move.san,
                 room: gameId,
             });
@@ -67,12 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
         board.position(game.fen());
     }
 
-    document.getElementById("message").addEventListener("keyup", function (event) {
+    document.getElementById("message").addEventListener("keyup", function(event) {
         if (event.key == "Enter") {
             let message = document.getElementById("message").value;
-            console.log(message);
-            socket.emit("chat", {message: message,
-                                 room: gameId,});
+            socket.emit("chat", {
+                message: message,
+                room: gameId,
+            });
             document.getElementById("message").value = "";
         }
     })

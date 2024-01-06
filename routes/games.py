@@ -141,11 +141,10 @@ def move_made(data, user):
     #     else:
     #         emit("victory", {"white": False})
 
-    else:
-        game.make_move(move)
-        db.session.commit()
+    game.make_move(move)
+    db.session.commit()
 
-        emit("move_made", {"move": move}, to=room)
+    emit("move_made", {"move": move}, to=room)
 
 
 @socketio.on("chat")
@@ -189,6 +188,8 @@ def draw(data):
     if not game:
         emit("message", {"message": "Game not found"})
         return
+
+    emit("draw", to=room)
     
 
 @socketio.on("resign")
@@ -216,8 +217,8 @@ def resign(data, user):
     
 
     if user.id == game.black_player_id:
-        emit("victory", {"winner": "white"})
+        emit("victory", {"winner": "white"}, to=room)
 
     else:
-        emit("victory", {"winner": "black"})
+        emit("victory", {"winner": "black"}, to=room)
     

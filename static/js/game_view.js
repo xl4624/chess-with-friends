@@ -6,7 +6,6 @@ const gameId = window.location.pathname.split('/')[2];
 document.addEventListener('DOMContentLoaded', () => {
     socket = io()
 
-
     socket.on('connect', function() {
         socket.emit('join', {
             room: gameId,

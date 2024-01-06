@@ -106,9 +106,9 @@ def join(data):
     user_id = session.get("user_id")
     
     if user_id == game.black_player_id:
-        emit("join", {"pgn": game.pgn(), "invert": True}, to=room)
+        emit("join", {"pgn": game.pgn(), "invert": True})
     else:
-        emit("join", {"pgn": game.pgn()}, to=room)
+        emit("join", {"pgn": game.pgn()})
 
 
 @socketio.on("move_made")
@@ -237,4 +237,3 @@ def resign(data):
         win = db.session.get(User, game.black_player_id)
         emit("victory", {"name": win.username})
     
-        

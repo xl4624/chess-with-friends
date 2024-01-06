@@ -149,12 +149,22 @@
             <input id="message" placeholder="Send a message!" type="text">
         </div>
         
-        <div class="popup-card" id="popUp">
+        <div class="modal" id="modal">
+
+            <div class="modal-header">
+                <button class="close-button">&times;</button>
+            </div>
+
             <!-- pop up details when win -->
-            <h1>{{userW}} has won the game! Rematch?</h1>
-            <button id="rematch">Yes</button>
-            <button id="return">No</button>
+            <div class="modal-body">
+                {{userW}} has won the game! Rematch?
+                <button id="rematch">Yes</button>
+                <button id="return">No</button>
+            </div>
+
         </div>
+
+        <div id="overlay"></div>
 
     </div>
 

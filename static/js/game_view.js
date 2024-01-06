@@ -38,14 +38,47 @@ document.addEventListener('DOMContentLoaded', () => {
         ul.scrollTop = ul.scrollHeight;
     })
 
-    socket.on('victory', function(data){
+    // used for when a player wins
+    // opening overlay to cover screen kinda
 
-        openEnding(data.name);
+    const overlay = document.getElementById('overlay')
+    overlay.addEventListener('click', () => {
+        const modals = document.querySelectorAll('.modal.active')
+        modals.forEach(modal => {
+            closeEnding(modal)
+        })
+    })
+
+    socket.on('victory', function(data){
+        console.log('victory ' + data.name)
+        const modal = document.querySelector('.modal')
+        console.log(modal)
+        openEnding(modal, data.name);
 
     })
 
-    function openEnding(winner){
-        document.getElementById("popUp").style.display = 'flex';
+    function openEnding(modal, winner){
+        if (modal == null){
+            return
+        }
+        console.log('opening')
+        modal.classList.add('active')
+        overlay.classList.add('active')
+    }
+
+    // closing ending popup
+
+    const closeModals = document.querySelectorAll('[data-close-button]')
+    closeModals.forEach(button => {
+        button.addEventListener('click', () => {
+
+            const modal = button.closest('.modal')
+            closeEnding(modal)
+        })
+    })
+    function closeEnding(modal){
+        modal.classList.remove('active')
+        overlay.classList.remove('active')
     }
 
     socket.on('draw', function(data){

@@ -139,11 +139,13 @@ def move_made(data):
 
     # if it is current player's turn, check to see if they are in checkmate
 
-    if game.in_checkmate():
-        if user_id == game.black_player_id:
-            emit("victory", {"white": True})
-        else:
-            emit("victory", {"white": False})
+    # CURRENTLY NOT WORKING NOT SURE WHY
+
+    # if game.in_checkmate():
+    #     if user_id == game.black_player_id:
+    #         emit("victory", {"white": True})
+    #     else:
+    #         emit("victory", {"white": False})
 
     else:
         game.make_move(move)
@@ -225,6 +227,14 @@ def resign(data):
     
     # after all checks, check to see which side resigns
 
-    emit("victory", {"name": user.username})
+    
+
+    if user_id == game.black_player_id:
+        win = db.session.get(User, game.white_player_id)
+        emit("victory", {"name": win.username})
+
+    else:
+        win = db.session.get(User, game.black_player_id)
+        emit("victory", {"name": win.username})
     
         

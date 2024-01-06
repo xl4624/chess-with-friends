@@ -135,7 +135,7 @@ ul {
     border-bottom: 1px solid black;
 }
 
-.modal-active{
+.modal.active{
     transform: translate(-50%, -50%) scale(1);
 }
 
@@ -144,6 +144,8 @@ ul {
     border: none;
     outline: none;
     background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
 
 }
 

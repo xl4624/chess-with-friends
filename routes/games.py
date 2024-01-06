@@ -1,16 +1,14 @@
 from flask import (
     Blueprint,
     jsonify,
-    redirect,
     render_template,
-    request,
     session,
     url_for,
 )
 from flask_socketio import emit, join_room
 
 from extensions import db, socketio
-from models import Game, User
+from models import Game
 from utils.decorators import (
     game_exists,
     game_not_full,
@@ -34,7 +32,7 @@ def create():
 @game_exists
 @game_not_full
 @login_required
-def view(game_id, game, user):
+def view(game_id, *, game, user):
     """
     Handle the view logic for a game based on how many players are currently in the game.
 
@@ -111,7 +109,7 @@ def join(data):
 
 @socketio.on("move_made")
 @socket_login_required
-def move_made(data, user):
+def move_made(data, *, user):
     room = data.get("room")
     move = data.get("move")
     if not room or not move:
@@ -149,7 +147,7 @@ def move_made(data, user):
 
 @socketio.on("chat")
 @socket_login_required
-def chat(data, user):
+def chat(data, *, user):
     """
     Handle chat messages sent from the client and broadcast them to all users in the room.
 
@@ -194,7 +192,7 @@ def draw(data):
 
 @socketio.on("resign")
 @socket_login_required
-def resign(data, user):
+def resign(data, *, user):
     """
     Handle resign requests sent from the client and broadcast them to all users in the room.
 

@@ -38,6 +38,29 @@ document.addEventListener('DOMContentLoaded', () => {
         ul.scrollTop = ul.scrollHeight;
     })
 
+    socket.on('victory', function(data){
+
+        openEnding(data.name);
+
+    })
+
+    function openEnding(winner){
+        document.getElementById("popUp").style.display = 'flex';
+    }
+
+    socket.on('draw', function(data){
+
+    })
+
+    document.getElementById("draw").addEventListener("click", function() {
+        socket.emit('draw')
+    });
+
+    document.getElementById("resign").addEventListener("click", function() {
+        socket.emit('resign', {room: gameId})
+    });
+
+
     var game = new Chess();
     var board = null;
 

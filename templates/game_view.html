@@ -8,6 +8,8 @@
 {% block content %}
     <div class="game-view-container">
         <div id="board"></div>
+        <button id="resign">Resign</button>
+        <button id="draw">Offer Draw</button>
         <div class="game-interaction-section">
             <div class="move-history-wrapper">
                 <table>
@@ -138,14 +140,24 @@
                     </tbody>
                 </table>
             </div>
-            <div class="chat-wrapper">
-                <ul id="chatMessage">
-                <!-- Chat messages will be listed here -->
-                </ul>
-                <input id="message" placeholder="Send a message!" type="text">
-            </div>
+            
         </div>
+        <div class="chat-wrapper">
+            <ul id="chatMessage">
+            <!-- Chat messages will be listed here -->
+            </ul>
+            <input id="message" placeholder="Send a message!" type="text">
+        </div>
+        
+        <div class="popup-card" id="popUp">
+            <!-- pop up details when win -->
+            <h1>{{userW}} has won the game! Rematch?</h1>
+            <button id="rematch">Yes</button>
+            <button id="return">No</button>
+        </div>
+
     </div>
+
 {% endblock %}
 
 {% block scripts %}

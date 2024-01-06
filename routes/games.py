@@ -137,10 +137,19 @@ def move_made(data):
         emit("message", {"message": "Not your turn"})
         return
 
-    game.make_move(move)
-    db.session.commit()
+    # if it is current player's turn, check to see if they are in checkmate
 
-    emit("move_made", {"move": move}, to=room)
+    if game.in_checkmate():
+        if user_id == game.black_player_id:
+            emit("victory", {"white": True})
+        else:
+            emit("victory", {"white": False})
+
+    else:
+        game.make_move(move)
+        db.session.commit()
+
+        emit("move_made", {"move": move}, to=room)
 
 
 @socketio.on("chat")
@@ -169,3 +178,53 @@ def chat(data):
     if game.contains_player(user_id):
         emit("chat", {"username": user.username, "message": message}, to=room)
 
+@socketio.on("draw")
+def draw(data):
+    user_id = session.get("user_id")
+    if not user_id:
+        emit("message", {"message": "Not logged in"})
+        return
+
+    user = db.session.get(User, user_id)
+    if not user:
+        emit("message", {"message": "User not found"})
+        return
+
+    room = data.get("room")
+    if not room:
+        emit("message", {"message": "No room specified"})
+        return
+
+    game = db.session.get(Game,room)
+    if not game:
+        emit("message", {"message": "Game not found"})
+        return
+    
+
+@socketio.on("resign")
+def resign(data):
+    user_id = session.get("user_id")
+    if not user_id:
+        emit("message", {"message": "Not logged in"})
+        return
+
+    user = db.session.get(User, user_id)
+    if not user:
+        emit("message", {"message": "User not found"})
+        return
+
+    room = data.get("room")
+    if not room:
+        emit("message", {"message": "No room specified"})
+        return
+
+    game = db.session.get(Game,room)
+    if not game:
+        emit("message", {"message": "Game not found"})
+        return
+    
+    # after all checks, check to see which side resigns
+
+    emit("victory", {"name": user.username})
+    
+        

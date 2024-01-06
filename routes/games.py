@@ -1,16 +1,22 @@
 from flask import (
     Blueprint,
     jsonify,
-    url_for,
     redirect,
-    session,
-    request,
     render_template,
+    request,
+    session,
+    url_for,
 )
 from flask_socketio import emit, join_room
 
 from extensions import db, socketio
 from models import Game, User
+from utils.decorators import (
+    game_exists,
+    game_not_full,
+    login_required,
+    socket_login_required,
+)
 
 games = Blueprint("games", __name__)
 
@@ -25,34 +31,26 @@ def create():
 
 
 @games.route("/<uuid:game_id>/")
-def view(game_id):
+@game_exists
+@game_not_full
+@login_required
+def view(game_id, game, user):
     """
-    If the game linked doesn't exist, 404.
-    If the game has two players, just spectate the game.
-    If the game exists and has less than two players, the user joins the game. 
+    Handle the view logic for a game based on how many players are currently in the game.
+
+    :param game_id: UUID of the game passed in from the route
+    :param game: Game object provided by the @game_exists decorator.
+                 Represents the game corresponding to game_id.
+    :param user: User object provided by the @login_required decorator.
+                 Represents the currently logged-in user.
     """
-    game = db.session.get(Game, str(game_id))
-    if not game:
-        return "Game not found", 404
-    
-    if game.is_full():
-        return render_template("game_view.html")
-
-    user_id = session.get("user_id")
-    if not user_id:
-        return redirect(url_for("users.create", prev=request.url))
-
-    user = db.session.get(User, user_id)
-    if not user:
-        return redirect(url_for("users.create", prev=request.url))
-
-    if game.contains_player(user_id):
+    if game.contains_player(user.id):
         if game.is_full():
             return render_template("game_view.html")
         else:
             return render_template("waiting_room.html", username=user.username)
 
-    game.add_player(user_id)
+    game.add_player(user.id)
 
     if game.is_full():
         game.randomize_players()
@@ -112,12 +110,8 @@ def join(data):
 
 
 @socketio.on("move_made")
-def move_made(data):
-    user_id = session.get("user_id")
-    if not user_id:
-        emit("message", {"message": "Not logged in"})
-        return
-
+@socket_login_required
+def move_made(data, user):
     room = data.get("room")
     move = data.get("move")
     if not room or not move:
@@ -129,11 +123,11 @@ def move_made(data):
         emit("message", {"message": "Game not found"})
         return
     
-    if not game.contains_player(user_id):
+    if not game.contains_player(user.id):
         emit("message", {"message": "You are not in this game"})
         return
 
-    if not game.is_turn(user_id):
+    if not game.is_turn(user.id):
         emit("message", {"message": "Not your turn"})
         return
 
@@ -155,17 +149,15 @@ def move_made(data):
 
 
 @socketio.on("chat")
-def chat(data):
-    user_id = session.get("user_id")
-    if not user_id:
-        emit("message", {"message": "Not logged in"})
-        return
+@socket_login_required
+def chat(data, user):
+    """
+    Handle chat messages sent from the client and broadcast them to all users in the room.
 
-    user = db.session.get(User, user_id)
-    if not user:
-        emit("message", {"message": "User not found"})
-        return
-
+    :param data: Dictionary containing the message and room to send the message to.
+    :param user: User object provided by the @socket_login_required decorator.
+                 Represents the currently logged-in user.
+    """
     room = data.get("room")
     if not room:
         emit("message", {"message": "No room specified"})
@@ -177,21 +169,17 @@ def chat(data):
         return
 
     message = data.get("message")
-    if game.contains_player(user_id):
+    if game.contains_player(user.id):
         emit("chat", {"username": user.username, "message": message}, to=room)
 
 @socketio.on("draw")
+@socket_login_required
 def draw(data):
-    user_id = session.get("user_id")
-    if not user_id:
-        emit("message", {"message": "Not logged in"})
-        return
+    """
+    Handle draw requests sent from the client and broadcast them to all users in the room.
 
-    user = db.session.get(User, user_id)
-    if not user:
-        emit("message", {"message": "User not found"})
-        return
-
+    :param data: Dictionary containing the room to send the message to.
+    """
     room = data.get("room")
     if not room:
         emit("message", {"message": "No room specified"})
@@ -204,17 +192,15 @@ def draw(data):
     
 
 @socketio.on("resign")
-def resign(data):
-    user_id = session.get("user_id")
-    if not user_id:
-        emit("message", {"message": "Not logged in"})
-        return
+@socket_login_required
+def resign(data, user):
+    """
+    Handle resign requests sent from the client and broadcast them to all users in the room.
 
-    user = db.session.get(User, user_id)
-    if not user:
-        emit("message", {"message": "User not found"})
-        return
-
+    :param data: Dictionary containing the room to send the message to.
+    :param user: User object provided by the @socket_login_required decorator.
+                 Represents the currently logged-in user.
+    """
     room = data.get("room")
     if not room:
         emit("message", {"message": "No room specified"})
@@ -229,11 +215,9 @@ def resign(data):
 
     
 
-    if user_id == game.black_player_id:
-        win = db.session.get(User, game.white_player_id)
-        emit("victory", {"name": win.username})
+    if user.id == game.black_player_id:
+        emit("victory", {"winner": "white"})
 
     else:
-        win = db.session.get(User, game.black_player_id)
-        emit("victory", {"name": win.username})
+        emit("victory", {"winner": "black"})
     

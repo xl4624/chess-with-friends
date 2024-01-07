@@ -6,7 +6,7 @@ from flask_uuid import FlaskUUID
 import secrets
 
 from extensions import db, socketio
-from routes import games, users
+from views import games, users
 from config import Config
 
 # load_dotenv()

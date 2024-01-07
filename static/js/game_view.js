@@ -10,16 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('join', {
             room: gameId,
         });
+
+        // Load game state (should only be called once when connecting to a game)
+        // But if socket connection breaks, client will still automatically rejoin and update board.
+        socket.once('joined', function(data) {
+            game.loadPgn(data.pgn);
+            board.position(game.fen());
+            if (data.invert) {
+                board.orientation('black');
+            }
+        })
     });
 
-    socket.on('join', function(data) {
-        game.loadPgn(data.pgn);
-        if (data.invert) {
-            board.orientation('black');
-        }
-        board.position(game.fen());
-    })
-
+    // Only here for debugging 
     socket.on('message', function(data) {
         console.log(data.message);
     })
@@ -49,10 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     socket.on('victory', function(data){
-        console.log('victory ' + data.name)
         const modal = document.querySelector('.modal')
-        console.log(modal)
-        openEnding(modal, data.name);
+        openEnding(modal, data.winner);
 
     })
 
@@ -60,7 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal == null){
             return
         }
-        console.log('opening')
+
+        const modalContent = modal.querySelector('.modal-text')
+        if (winner == 'white') {
+            modalContent.textContent = 'White wins! Rematch?'
+        } else if (winner == 'black') {
+            modalContent.textContent = 'Black wins! Rematch?'
+        }
         modal.classList.add('active')
         overlay.classList.add('active')
     }
@@ -115,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 move: move.san,
                 room: gameId,
             });
-            game.undo();
         } catch (err) {
             return 'snapback';
         }

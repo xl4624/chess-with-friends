@@ -79,3 +79,4 @@ def socket_login_required(function):
 
 # TODO: Implement
 # def socket_room_required(function):
+# def socket_game_exists(function):

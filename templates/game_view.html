@@ -22,121 +22,6 @@
                     </thead>
                     <tbody>
                         <!-- Move history will be listed here -->
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>e4</td>
-                            <td>e5</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -158,9 +43,10 @@
 
             <!-- pop up details when win -->
             <div class="modal-body">
-                {{userW}} has won the game! Rematch?
+                <div class="modal-text"></div>
                 <button id="rematch">Yes</button>
-                <button id="return">No</button>
+                <!-- Ideally this should just be an <a> tag that should look like a button using css -->
+                <button><a href="{{ url_for('index') }}">No</a></button>
             </div>
 
         </div>

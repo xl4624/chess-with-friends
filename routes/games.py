@@ -2,6 +2,7 @@ from flask import (
     Blueprint,
     jsonify,
     render_template,
+    request,
     session,
     url_for,
 )
@@ -100,11 +101,9 @@ def join(data):
     join_room(room)
 
     user_id = session.get("user_id")
-    
-    if user_id == game.black_player_id:
-        emit("join", {"pgn": game.pgn(), "invert": True})
-    else:
-        emit("join", {"pgn": game.pgn()})
+    invert = (user_id == game.black_player_id)  # Only invert for black player
+
+    emit("joined", {"pgn": game.pgn(), "invert": invert})
 
 
 @socketio.on("move_made")
@@ -142,7 +141,7 @@ def move_made(data, *, user):
     game.make_move(move)
     db.session.commit()
 
-    emit("move_made", {"move": move}, to=room)
+    emit("move_made", {"move": move}, to=room, include_self=False)
 
 
 @socketio.on("chat")
@@ -168,6 +167,7 @@ def chat(data, *, user):
     message = data.get("message")
     if game.contains_player(user.id):
         emit("chat", {"username": user.username, "message": message}, to=room)
+
 
 @socketio.on("draw")
 @socket_login_required
@@ -209,14 +209,11 @@ def resign(data, *, user):
     if not game:
         emit("message", {"message": "Game not found"})
         return
+
+    if not game.contains_player(user.id):
+        emit("message", {"message": "You are not in this game"})
+        return
     
-    # after all checks, check to see which side resigns
-
-    
-
-    if user.id == game.black_player_id:
-        emit("victory", {"winner": "white"}, to=room)
-
-    else:
-        emit("victory", {"winner": "black"}, to=room)
+    winner = "white" if user.id == game.black_player_id else "black"
+    emit("victory", {"winner": winner}, to=room)
     

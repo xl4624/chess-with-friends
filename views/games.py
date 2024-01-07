@@ -106,7 +106,7 @@ def join(data):
     emit("joined", {"pgn": game.pgn(), "invert": invert})
 
 
-@socketio.on("move_made")
+@socketio.on("move made")
 @socket_login_required
 def move_made(data, *, user):
     room = data.get("room")
@@ -141,7 +141,7 @@ def move_made(data, *, user):
     game.make_move(move)
     db.session.commit()
 
-    emit("move_made", {"move": move}, to=room, include_self=False)
+    emit("move made", {"move": move}, to=room, include_self=False)
 
 
 @socketio.on("chat")

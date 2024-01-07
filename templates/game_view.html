@@ -66,5 +66,8 @@
     <script crossorigin="anonymous"
             integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
             src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <script src="{{ url_for('static', filename='dist/game_view.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/socket.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/game_view/board.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/game_view/chat.bundle.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/game_view/modal.bundle.js') }}"></script>
 {% endblock %}

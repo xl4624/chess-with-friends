@@ -1,7 +1,5 @@
-import socket from './main.js';
+import { gameId, socket } from './main.js';
 
-
-const gameId = window.location.pathname.split('/')[2];
 
 document.addEventListener('DOMContentLoaded', () => {
     // Only here for debugging

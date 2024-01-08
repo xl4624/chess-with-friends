@@ -1,16 +1,9 @@
 import { Chess } from 'chess.js';
 
-import socket from './main.js';
+import { gameId, socket } from './main.js';
 
-
-const gameId = window.location.pathname.split('/')[2];
 
 document.addEventListener('DOMContentLoaded', () => {
-    socket.on('connect', function() {
-        socket.emit('join', { room: gameId });
-
-    });
-
     socket.on('joined', function(data) {
         game.loadPgn(data.pgn);
         if (data.invert) {

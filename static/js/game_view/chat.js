@@ -1,4 +1,4 @@
-import socket from './main.js';
+import { gameId, socket } from './main.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -57,17 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.classList.remove('active')
     }
 
-    socket.on('draw', function(data){
+    socket.on('draw', function() {
         const modal = document.querySelector('.modal')
         openEnding(modal, 'draw');
     })
 
     document.getElementById("draw").addEventListener("click", function() {
-        socket.emit('draw')
+        socket.emit('draw', { room: gameId });
     });
 
     document.getElementById("resign").addEventListener("click", function() {
-        socket.emit('resign', {room: gameId})
+        socket.emit('resign', { room: gameId });
     });
 });
 

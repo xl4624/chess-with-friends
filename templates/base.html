@@ -23,7 +23,7 @@
                 <div class="error">{{ error }}</div>
             {% endif %}
             <h1><a href="{{ url_for('index') }}">Chess</a></h1>
-            {% filter indent(width=8) %}
+            {% filter indent(width=12) %}
             {% block content %}
             {% endblock %}
             {% endfilter %}
@@ -34,3 +34,4 @@
         {% endfilter %}
     </body>
 </html>
+

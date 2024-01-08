@@ -7,8 +7,10 @@
         <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        {% filter indent(width=8) %}
         {% block styles %}
         {% endblock %}
+        {% endfilter %}
         <title>{% block title %}Chess{% endblock %}</title>
     </head>
     <body>
@@ -21,11 +23,14 @@
                 <div class="error">{{ error }}</div>
             {% endif %}
             <h1><a href="{{ url_for('index') }}">Chess</a></h1>
+            {% filter indent(width=8) %}
             {% block content %}
             {% endblock %}
+            {% endfilter %}
         </div>
+        {% filter indent(width=8) %}
         {% block scripts %}
         {% endblock %}
+        {% endfilter %}
     </body>
 </html>
-

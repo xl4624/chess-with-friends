@@ -9,30 +9,13 @@
         <button id="createGameButton">
             Play against a friend
         </button>
-        <a href="{{ url_for('todo') }}">Play against the computer</a>
+        <a href="{{ url_for('todo') }}">
+            Play against the computer
+        </a>
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block scripts %}
-    <script type="text/javascript">
-    document.getElementById("createGameButton").addEventListener("click", function() {
-        fetch("games/create/", {
-            method: "POST",
-        })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    });
-    </script>
+{% block scripts %}
+<script src="{{ url_for('static', filename='dist/index.bundle.js') }}"></script>
+{% endblock %}
 
-    
-
-    {% endblock %}

@@ -6,16 +6,12 @@
 
 {% block content %}
     <div class="index-container">
-        <button id="createGameButton">
-            Play against a friend
-        </button>
+        <form action="{{ url_for('games.create') }}" method="POST">
+            <input type="submit" value="Play against a friend">
+        </form>
         <a href="{{ url_for('todo') }}">
             Play against the computer
         </a>
     </div>
-{% endblock %}
-
-{% block scripts %}
-<script src="{{ url_for('static', filename='dist/index.bundle.js') }}"></script>
 {% endblock %}
 

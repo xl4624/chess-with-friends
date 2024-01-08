@@ -1,6 +1,7 @@
 from flask import (
     Blueprint,
     jsonify,
+    redirect,
     render_template,
     session,
     url_for,
@@ -23,10 +24,8 @@ games = Blueprint("games", __name__)
 def create():
     new_game = Game()
     db.session.add(new_game)
-
     db.session.commit()
-    return jsonify({"redirect": url_for("games.view", game_id=new_game.id)})
-
+    return redirect(url_for("games.view", game_id=new_game.id))
 
 @games.route("/<uuid:game_id>/")
 @game_exists

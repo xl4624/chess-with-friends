@@ -1,4 +1,11 @@
-from flask import Blueprint, session, request, url_for, render_template, redirect
+from flask import (
+    Blueprint,
+    session,
+    request,
+    url_for,
+    render_template,
+    redirect,
+)
 
 from extensions import db
 from models import User
@@ -20,7 +27,9 @@ def create():
         db.session.add(new_user)
         db.session.commit()
         session["user_id"] = new_user.id
-        return redirect(session.pop("url", url_for("index", _external=True)))
+
+        # Redirect to the page the user was on before logging in
+        return redirect(session.pop("url"))
 
     return render_template("user_create.html")
 

@@ -8,7 +8,7 @@
     gap: 1rem;
 }
 
-button, .index-container a {
+input, .index-container a {
     background-color: var(--surface);
     border: 2px solid var(--overlay);
     border-radius: 0.5rem;
@@ -23,13 +23,13 @@ button, .index-container a {
     width: 100%;
 }
 
-button:hover, button:focus, .index-container a:hover, .index-container a:focus {
+input:hover, input:focus, .index-container a:hover, .index-container a:focus {
     background-color: var(--highlight-med);
     border-color: var(--highlight-high);
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-button:active, .index-container a:active {
+input:active, .index-container a:active {
     background-color: var(--highlight-high);
     border-color: var(--highlight-high);
     transition: none;

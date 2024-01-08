@@ -2,11 +2,6 @@ import { gameId, socket } from './main.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Only here for debugging
-    socket.on('message', function(data) {
-        console.log(data.message);
-    })
-
     // used for when a player wins
     // opening overlay to cover screen kinda
 

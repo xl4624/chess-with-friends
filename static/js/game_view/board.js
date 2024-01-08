@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 move: move.san,
                 room: gameId,
             });
+            game.undo();
         } catch (err) {
             return 'snapback';
         }

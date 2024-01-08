@@ -140,7 +140,7 @@ def move_made(data, *, user):
     game.make_move(move)
     db.session.commit()
 
-    emit("move made", {"move": move}, to=room, include_self=False)
+    emit("move made", {"move": move}, to=room)
 
 
 @socketio.on("chat")

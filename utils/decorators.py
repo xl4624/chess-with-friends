@@ -10,6 +10,11 @@ from models import Game, User
 ### Route Decorators ###
 ########################
 
+"""
+function.__code__.co_varnames is a tuple of the function's arguments, so we can check
+if a function has a certain argument and then pass it to the function only if it does.
+"""
+
 def login_required(function):
     """
     Decorator to ensure that a user is logged in before accessing a route.
@@ -19,10 +24,13 @@ def login_required(function):
         user_id = session.get("user_id")
         if not user_id:
             return redirect(url_for("users.create", prev=request.url))
+        if 'user_id' in function.__code__.co_varnames: 
+            kwargs["user_id"] = user_id
         user = db.session.get(User, user_id)
         if not user:
             return redirect(url_for("users.create", prev=request.url))
-        kwargs["user"] = user
+        if 'user' in function.__code__.co_varnames: 
+            kwargs["user"] = user
         return function(*args, **kwargs)
     return wrapper
 
@@ -37,7 +45,8 @@ def game_exists(function):
         game = db.session.get(Game, game_id)
         if not game:
             return "Game not found", 404
-        kwargs["game"] = game
+        if 'game' in function.__code__.co_varnames:
+            kwargs["game"] = game
         return function(*args, **kwargs)
     return wrapper
 
@@ -79,7 +88,8 @@ def socket_login_required(function):
         if not user:
             emit("message", {"message": "You must be logged in to do that."})
             return
-        kwargs["user"] = user
+        if 'user' in function.__code__.co_varnames:
+            kwargs["user"] = user
         return function(*args, **kwargs)
     return wrapper
 

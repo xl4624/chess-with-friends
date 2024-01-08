@@ -6,6 +6,10 @@ from extensions import db
 from models import Game, User
 
 
+########################
+### Route Decorators ###
+########################
+
 def login_required(function):
     """
     Decorator to ensure that a user is logged in before accessing a route.
@@ -62,6 +66,9 @@ def game_not_full(function):
 #########################
 
 def socket_login_required(function):
+    """
+    Decorator to ensure that the user is logged in before being able to access the socket.
+    """
     @wraps(function)
     def wrapper(*args, **kwargs):
         user_id = session.get("user_id")

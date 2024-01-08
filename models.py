@@ -16,10 +16,9 @@ class Game(db.Model):
     def __repr__(self):
         return f"<Game {self.id}>"
 
-    def pgn(self) -> str:
+    def pgn(self):
         pgn = []
         move_number = 1
-
         for i, move in enumerate(self.moves):
             if i % 2 == 0:
                 pgn.append(f"{move_number}.")
@@ -70,4 +69,15 @@ class Game(db.Model):
     
     def make_move(self, move):
         self.moves.append(move)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(36), nullable=False, unique=False)
+
+    def __init__(self, username):
+        self.username = username
+
+    def __repr__(self):
+        return f"<User {self.id}> {self.username}"
 

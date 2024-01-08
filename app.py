@@ -1,31 +1,28 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_uuid import FlaskUUID
-# import os
-# from dotenv import load_dotenv
 import secrets
 
 from extensions import db, socketio
-from routes import games, users
+from views import games, users
 from config import Config
 
-# load_dotenv()
 
 app = Flask(__name__)
 
 app.secret_key = secrets.token_urlsafe(16)
 
-# if os.getenv("FLASK_ENV") == "DEVELOPMENT":
-# elif os.getenv("FLASK_ENV") == "PRODUCTION":
-# elif os.getenv("FLASK_ENV") == "TESTING":
 app.config.from_object(Config)
 
+# Database and SocketIO initialization
 db.init_app(app)
 migrate = Migrate(app, db)
 socketio.init_app(app)
 
+# UUID support for game IDs (could remove this for strings instead of UUIDs)
 FlaskUUID(app)
 
+# Register blueprints
 app.register_blueprint(games, url_prefix="/games")
 app.register_blueprint(users, url_prefix="/users")
 
@@ -43,3 +40,12 @@ def index():
 if __name__ == "__main__":
     socketio.run(app, use_reloader=True, log_output=True, host="localhost", port=3000)
 
+
+# TODO: Implement different configs for different environments
+# load_dotenv()
+# if os.getenv("FLASK_ENV") == "DEVELOPMENT":
+#     app.config.from_object("DevelopmentConfig")
+# elif os.getenv("FLASK_ENV") == "PRODUCTION":
+#     app.config.from_object("ProductionConfig")
+# elif os.getenv("FLASK_ENV") == "TESTING":
+#     app.config.from_object("TestingConfig")

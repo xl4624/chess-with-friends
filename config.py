@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from datetime import timedelta
 
+
 load_dotenv()
 
 
@@ -16,15 +17,14 @@ class Config:
     PERMANENT_SESSION_LIFETIME = timedelta(days=1)
 
 
-class DevelopmentConfig(Config):
-    debug = True
-
-
-class ProductionConfig(Config):
-    debug = False
-
-
-class TestingConfig(Config):
-    debug = True
-    testing = True
-
+# class DevelopmentConfig(Config):
+#     debug = True
+#
+#
+# class ProductionConfig(Config):
+#     debug = False
+#
+#
+# class TestingConfig(Config):
+#     debug = True
+#     testing = True

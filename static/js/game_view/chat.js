@@ -1,4 +1,4 @@
-import socket from '../socket.js';
+import socket from './main.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {

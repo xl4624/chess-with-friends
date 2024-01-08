@@ -1,4 +1,4 @@
-import socket from '../socket.js';
+import socket from './main.js';
 
 
 const gameId = window.location.pathname.split('/')[2];

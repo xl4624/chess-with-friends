@@ -21,7 +21,7 @@ def create():
     if request.method == "POST":
         username = request.form.get("username")
         if not username:
-            return render_template("user_create.html", error="Username is required")
+            return render_template("user_create.html")
 
         new_user = User(username=username)
         db.session.add(new_user)

@@ -7,7 +7,6 @@ load_dotenv()
 
 
 class Config:
-    debug = True
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql+psycopg2://{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}"
         f"@{os.getenv('DATABASE_HOST')}/{os.getenv('DATABASE_NAME')}"

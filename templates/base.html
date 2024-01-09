@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
         {% filter indent(width=8) %}
         {% block styles %}
         {% endblock %}
@@ -15,19 +15,19 @@
     </head>
     <body>
         <div class="container">
-            {% if info %}
-                <div class="info">{{ info }}</div>
-            {% elif warning %}
-                <div class="warning">{{ warning }}</div>
-            {% elif error %}
-                <div class="error">{{ error }}</div>
-            {% endif %}
+            <div class="message" id="info"></div>
+            <div class="message" id="warning"></div>
+            <div class="message" id="error"></div>
             <h1><a href="{{ url_for('index') }}">Chess</a></h1>
             {% filter indent(width=12) %}
             {% block content %}
             {% endblock %}
             {% endfilter %}
         </div>
+        <script crossorigin="anonymous"
+                integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
+                src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+        <script src="{{ url_for('static', filename='dist/base.bundle.js') }}"></script>
         {% filter indent(width=8) %}
         {% block scripts %}
         {% endblock %}

@@ -1,7 +1,7 @@
 import { Chess } from 'chess.js';
 
-import { gameId, socket } from './main.js';
-
+import { socket } from '../base.js';
+import { gameId } from './main.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     socket.on('joined', function(data) {
@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     var board = null;
 
     function onDragStart(source, piece, position, orientation) {
-        if (game.isGameOver() === true ||
-            (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+        // do not pick up pieces if the game is over
+        if (game.isGameOver()) return false;
+
+        if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
             (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
             return false;
         }

@@ -82,11 +82,11 @@ def socket_login_required(function):
     def wrapper(*args, **kwargs):
         user_id = session.get("user_id")
         if not user_id:
-            emit("message", {"message": "You must be logged in to do that."})
+            emit("error", {"message": "You must be logged in to do that."})
             return
         user = db.session.get(User, user_id)
         if not user:
-            emit("message", {"message": "You must be logged in to do that."})
+            emit("error", {"message": "You must be logged in to do that."})
             return
         if 'user' in function.__code__.co_varnames:
             kwargs["user"] = user

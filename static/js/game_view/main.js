@@ -1,4 +1,5 @@
-export const socket = io();
+import { socket } from '../base.js';
+export const gameId = window.location.pathname.split('/')[2];
 
 socket.on('connect', function() {
     socket.emit('join', {
@@ -10,6 +11,4 @@ socket.on('connect', function() {
 socket.on('message', function(data) {
     console.log(data.message);
 });
-
-export const gameId = window.location.pathname.split('/')[2];
 

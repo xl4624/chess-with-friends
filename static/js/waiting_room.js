@@ -1,9 +1,9 @@
-var socket;
+import { socket } from './base.js';
+
+
 const gameId = window.location.pathname.split('/')[2];
 
 document.addEventListener('DOMContentLoaded', () => {
-    socket = io()
-
     socket.on('connect', function() {
         socket.emit('join', {
             room: gameId,

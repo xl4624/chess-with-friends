@@ -38,7 +38,7 @@ def index():
 
 
 if __name__ == "__main__":
-    socketio.run(app, use_reloader=True, log_output=True, host="localhost", port=3000)
+    socketio.run(app, debug=True, use_reloader=True, log_output=True, host="localhost", port=3000)
 
 
 # TODO: Implement different configs for different environments

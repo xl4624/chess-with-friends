@@ -1,5 +1,5 @@
-import { gameId, socket } from './main.js';
-
+import { socket } from '../base.js';
+import { gameId } from './main.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     socket.on('chat', function(data) {

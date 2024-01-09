@@ -108,22 +108,26 @@ def join(data):
 @socket_login_required
 def move_made(data, *, user):
     room = data.get("room")
+    if not room:
+        emit("error", {"message": "No room specified"})
+        return
+
     move = data.get("move")
-    if not room or not move:
+    if not move:
         emit("message", {"message": "Invalid data"})
         return
 
     game = db.session.get(Game, room)
     if not game:
-        emit("message", {"message": "Game not found"})
+        emit("error", {"message": "Game not found"})
         return
     
     if not game.contains_player(user.id):
-        emit("message", {"message": "You are not in this game"})
+        emit("error", {"message": "You are not in this game"})
         return
 
     if not game.is_turn(user.id):
-        emit("message", {"message": "Not your turn"})
+        emit("error", {"message": "Not your turn"})
         return
 
     # if it is current player's turn, check to see if they are in checkmate
@@ -154,12 +158,12 @@ def chat(data, *, user):
     """
     room = data.get("room")
     if not room:
-        emit("message", {"message": "No room specified"})
+        emit("error", {"message": "No room specified"})
         return
 
     game = db.session.get(Game,room)
     if not game:
-        emit("message", {"message": "Game not found"})
+        emit("error", {"message": "Game not found"})
         return
 
     message = data.get("message")
@@ -177,12 +181,12 @@ def draw(data):
     """
     room = data.get("room")
     if not room:
-        emit("message", {"message": "No room specified"})
+        emit("error", {"message": "No room specified"})
         return
 
     game = db.session.get(Game,room)
     if not game:
-        emit("message", {"message": "Game not found"})
+        emit("error", {"message": "Game not found"})
         return
 
     emit("draw", to=room)
@@ -200,16 +204,16 @@ def resign(data, *, user):
     """
     room = data.get("room")
     if not room:
-        emit("message", {"message": "No room specified"})
+        emit("error", {"message": "No room specified"})
         return
 
     game = db.session.get(Game,room)
     if not game:
-        emit("message", {"message": "Game not found"})
+        emit("error", {"message": "Game not found"})
         return
 
     if not game.contains_player(user.id):
-        emit("message", {"message": "You are not in this game"})
+        emit("error", {"message": "You are not in this game"})
         return
     
     winner = "white" if user.id == game.black_player_id else "black"

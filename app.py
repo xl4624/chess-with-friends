@@ -1,18 +1,22 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_uuid import FlaskUUID
-import secrets
+import os
 
 from extensions import db, socketio
 from views import games, users
-from config import Config
+from config import DevelopmentConfig, ProductionConfig, TestingConfig
 
 
 app = Flask(__name__)
 
-app.secret_key = secrets.token_urlsafe(16)
-
-app.config.from_object(Config)
+match os.getenv("FLASK_ENV", "DEVELOPMENT"):
+    case "DEVELOPMENT":
+        app.config.from_object(DevelopmentConfig)
+    case "PRODUCTION":
+        app.config.from_object(ProductionConfig)
+    case "TESTING":
+        app.config.from_object(TestingConfig)
 
 # Database and SocketIO initialization
 db.init_app(app)
@@ -36,16 +40,3 @@ def todo():
 def index():
     return render_template("index.html")
 
-
-if __name__ == "__main__":
-    socketio.run(app, debug=True, use_reloader=True, log_output=True, host="localhost", port=3000)
-
-
-# TODO: Implement different configs for different environments
-# load_dotenv()
-# if os.getenv("FLASK_ENV") == "DEVELOPMENT":
-#     app.config.from_object("DevelopmentConfig")
-# elif os.getenv("FLASK_ENV") == "PRODUCTION":
-#     app.config.from_object("ProductionConfig")
-# elif os.getenv("FLASK_ENV") == "TESTING":
-#     app.config.from_object("TestingConfig")

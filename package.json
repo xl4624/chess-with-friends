@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "description": "Chess web application.",
   "scripts": {
-    "dev": "npm-run-all --parallel dev:*",
+    "dev": "cross-env FLASK_ENV=DEVELOPMENT npm-run-all --parallel dev:*",
     "dev:webpack": "webpack --mode development --watch",
-    "dev:server": "python app.py",
-    "start": "webpack --mode production && python app.py"
+    "dev:server": "flask --app=app run --debug --host=localhost --port=3000",
+    "start": "cross-env FLASK_ENV=PRODUCTION webpack --mode production && python app.py",
+    "test": "cross-env FLASK_ENV=TESTING echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
   "author": "Xiaomin Liu",
@@ -15,6 +16,7 @@
     "chess.js": "^1.0.0-beta.7"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "glob": "^10.3.10",
     "npm-run-all": "^4.1.5",
     "webpack": "^5.89.0",

@@ -15,6 +15,7 @@ from utils.decorators import (
     game_not_full,
     login_required,
     socket_login_required,
+    socket_room_required,
 )
 
 games = Blueprint("games", __name__)
@@ -26,6 +27,7 @@ def create():
     db.session.add(new_game)
     db.session.commit()
     return redirect(url_for("games.view", game_id=new_game.id))
+
 
 @games.route("/<uuid:game_id>/")
 @game_exists
@@ -54,7 +56,7 @@ def view(game_id, *, game, user):
         db.session.commit()
 
         socketio.emit("start", to=str(game_id))
-        return render_template("game_view.html") 
+        return render_template("game_view.html")
     else:
         db.session.commit()
         return render_template("waiting_room.html", username=user.username)
@@ -85,12 +87,9 @@ def list():
 
 
 @socketio.on("join")
-def join(data):
-    room = data.get("room")
-    if not room:
-        emit("message", {"message": "No room specified"})
-        return
-
+@socket_login_required
+@socket_room_required
+def join(data, *, room):
     game = db.session.get(Game, room)
     if not game:
         emit("message", {"message": "Game not found"})
@@ -103,15 +102,10 @@ def join(data):
 
     emit("joined", {"pgn": game.pgn(), "invert": invert})
 
-
 @socketio.on("move made")
 @socket_login_required
-def move_made(data, *, user):
-    room = data.get("room")
-    if not room:
-        emit("error", {"message": "No room specified"})
-        return
-
+@socket_room_required
+def move_made(data, *, user, room):
     move = data.get("move")
     if not move:
         emit("message", {"message": "Invalid data"})
@@ -121,7 +115,7 @@ def move_made(data, *, user):
     if not game:
         emit("error", {"message": "Game not found"})
         return
-    
+
     if not game.contains_player(user.id):
         emit("error", {"message": "You are not in this game"})
         return
@@ -148,7 +142,8 @@ def move_made(data, *, user):
 
 @socketio.on("chat")
 @socket_login_required
-def chat(data, *, user):
+@socket_room_required
+def chat(data, *, user, room):
     """
     Handle chat messages sent from the client and broadcast them to all users in the room.
 
@@ -156,12 +151,8 @@ def chat(data, *, user):
     :param user: User object provided by the @socket_login_required decorator.
                  Represents the currently logged-in user.
     """
-    room = data.get("room")
-    if not room:
-        emit("error", {"message": "No room specified"})
-        return
-
-    game = db.session.get(Game,room)
+    emit("message", {"message": room})
+    game = db.session.get(Game, room)
     if not game:
         emit("error", {"message": "Game not found"})
         return
@@ -173,28 +164,25 @@ def chat(data, *, user):
 
 @socketio.on("draw")
 @socket_login_required
-def draw(data):
+@socket_room_required
+def draw(data, *, room):
     """
     Handle draw requests sent from the client and broadcast them to all users in the room.
 
     :param data: Dictionary containing the room to send the message to.
     """
-    room = data.get("room")
-    if not room:
-        emit("error", {"message": "No room specified"})
-        return
-
-    game = db.session.get(Game,room)
+    game = db.session.get(Game, room)
     if not game:
         emit("error", {"message": "Game not found"})
         return
 
     emit("draw", to=room)
-    
+
 
 @socketio.on("resign")
 @socket_login_required
-def resign(data, *, user):
+@socket_room_required
+def resign(data, *, user, room):
     """
     Handle resign requests sent from the client and broadcast them to all users in the room.
 
@@ -202,12 +190,7 @@ def resign(data, *, user):
     :param user: User object provided by the @socket_login_required decorator.
                  Represents the currently logged-in user.
     """
-    room = data.get("room")
-    if not room:
-        emit("error", {"message": "No room specified"})
-        return
-
-    game = db.session.get(Game,room)
+    game = db.session.get(Game, room)
     if not game:
         emit("error", {"message": "Game not found"})
         return
@@ -215,7 +198,6 @@ def resign(data, *, user):
     if not game.contains_player(user.id):
         emit("error", {"message": "You are not in this game"})
         return
-    
+
     winner = "white" if user.id == game.black_player_id else "black"
     emit("victory", {"winner": winner}, to=room)
-    

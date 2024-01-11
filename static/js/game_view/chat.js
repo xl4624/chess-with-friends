@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('chat', (data) => {
         const chatMessageList = document.getElementById('chatMessage');
         const chatMessage = document.createElement('li');
-        chatMessage.textContent = `${data.username}: ${data.message}`
+        chatMessage.textContent = `${data.username}: ${data.message}`;
         chatMessageList.appendChild(chatMessage);
-        chatMessageList.scrollTop = chatMessageList.scrollHeight;   // Scroll to bottom
+        chatMessageList.scrollTop = chatMessageList.scrollHeight; // Scroll to bottom
     });
-    
+
     const messageInput = document.getElementById('message');
     messageInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {

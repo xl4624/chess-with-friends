@@ -1,0 +1,23 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "google",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "ignorePatterns": [
+        "node_modules/",
+        "dist/",
+        "**/*.min.js",
+        "**/*.bundle.js",
+        "**/*.config.js"
+    ],
+    "rules": {
+        "max-len": ["warn", {"code": 120}],
+        "indent": ["error", 4],
+        "object-curly-spacing": ["error", "always"]
+    }
+}

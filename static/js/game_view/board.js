@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         board.position(game.fen());
         addMoveToHistory(moveMade);
     });
-    
+
     const config = {
         draggable: true,
         position: 'start',
@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
         onSnapEnd: onSnapEnd,
     };
 
-    board = Chessboard('board', config);
+    board = new Chessboard('board', config);
 });
 
 function populateMoveHistory() {
     const moves = game.history();
-    let movesHtml = [];
+    const movesHtml = [];
 
     for (let i = 0; i < moves.length; i += 2) {
         movesHtml.push(`<tr>
@@ -53,7 +53,7 @@ function addMoveToHistory(move) {
     const tbody = document.querySelector('.move-history-wrapper tbody');
 
     // This condition is inverted because the move is made before this function is called
-    // So if the game's turn is white, then black just made a move that needs to be 
+    // so if the game's turn is white, then black just made a move that needs to be
     // added to the move history and vice versa.
     if (game.turn() === 'w') {
         // Find the last row and update it with Black's move
@@ -85,7 +85,7 @@ function onDrop(source, target) {
         const move = game.move({
             from: source,
             to: target,
-            promotion: 'q'  // Default to queen promotion for simplicity
+            promotion: 'q', // Default to queen promotion for simplicity
         });
         socket.emit('move made', {
             move: move.san,

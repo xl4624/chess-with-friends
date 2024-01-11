@@ -5,7 +5,7 @@ export const socket = io();
 export function showMessage(type, message) {
     const element = document.getElementById(type);
     element.textContent = message;
-    element.style.opacity = '1'
+    element.style.opacity = '1';
 
     setTimeout(() => {
         element.style.opacity = '0';

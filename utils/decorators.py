@@ -90,10 +90,24 @@ def socket_login_required(function):
             return
         if 'user' in function.__code__.co_varnames:
             kwargs["user"] = user
-        return function(*args, **kwargs)
+        function(*args, **kwargs)
     return wrapper
 
 
 # TODO: Implement
-# def socket_room_required(function):
+def socket_room_required(function):
+    """
+    Decorator to ensure that the room exists before joining it
+    """
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        data = args[0]
+        room = data.get("room")
+        if not room:
+            emit("message", {"message": "No room specified"})
+            return
+        if 'room' in function.__code__.co_varnames:
+            kwargs["room"] = room
+        function(*args, **kwargs)
+    return wrapper
 # def socket_game_exists(function):

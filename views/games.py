@@ -1,6 +1,5 @@
 from flask import (
     Blueprint,
-    jsonify,
     redirect,
     render_template,
     session,

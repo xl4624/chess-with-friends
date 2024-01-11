@@ -1,6 +1,7 @@
 from flask import session, redirect, url_for, render_template, request
 from flask_socketio import emit
 from functools import wraps
+from inspect import signature
 
 from extensions import db
 from models import Game, User
@@ -11,7 +12,7 @@ from models import Game, User
 ########################
 
 """
-function.__code__.co_varnames is a tuple of the function's arguments, so we can check
+signature(function).parameters is an OrderedDict of the function's arguments, so we can check
 if a function has a certain argument and then pass it to the function only if it does.
 """
 
@@ -24,12 +25,12 @@ def login_required(function):
         user_id = session.get("user_id")
         if not user_id:
             return redirect(url_for("users.create", prev=request.url))
-        if 'user_id' in function.__code__.co_varnames: 
+        if 'user_id' in signature(function).parameters:
             kwargs["user_id"] = user_id
         user = db.session.get(User, user_id)
         if not user:
             return redirect(url_for("users.create", prev=request.url))
-        if 'user' in function.__code__.co_varnames: 
+        if 'user' in signature(function).parameters:
             kwargs["user"] = user
         return function(*args, **kwargs)
     return wrapper
@@ -45,7 +46,7 @@ def game_exists(function):
         game = db.session.get(Game, game_id)
         if not game:
             return "Game not found", 404
-        if 'game' in function.__code__.co_varnames:
+        if 'game' in signature(function).parameters:
             kwargs["game"] = game
         return function(*args, **kwargs)
     return wrapper
@@ -88,9 +89,9 @@ def socket_login_required(function):
         if not user:
             emit("error", {"message": "You must be logged in to do that."})
             return
-        if 'user' in function.__code__.co_varnames:
+        if 'user' in signature(function).parameters:
             kwargs["user"] = user
-        function(*args, **kwargs)
+        return function(*args, **kwargs)
     return wrapper
 
 
@@ -106,8 +107,8 @@ def socket_room_required(function):
         if not room:
             emit("message", {"message": "No room specified"})
             return
-        if 'room' in function.__code__.co_varnames:
+        if 'room' in signature(function).parameters:
             kwargs["room"] = room
-        function(*args, **kwargs)
+        return function(*args, **kwargs)
     return wrapper
 # def socket_game_exists(function):

@@ -1,23 +1,27 @@
 import { socket } from '../base.js';
 import { gameId } from './main.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    socket.on('chat', function(data) {
-        let ul = document.getElementById('chatMessage');
-        let li = document.createElement('li');
-        li.appendChild(document.createTextNode(data.username + ': ' + data.message));
-        ul.appendChild(li);
-        ul.scrollTop = ul.scrollHeight;
-    });
 
-    document.getElementById('message').addEventListener('keyup', function(event) {
-        if (event.key == 'Enter') {
-            let message = document.getElementById('message').value;
-            socket.emit('chat', {
-                message: message,
-                room: gameId,
-            });
-            document.getElementById('message').value = '';
+document.addEventListener('DOMContentLoaded', () => {
+    socket.on('chat', (data) => {
+        const chatMessageList = document.getElementById('chatMessage');
+        const chatMessage = document.createElement('li');
+        chatMessage.textContent = `${data.username}: ${data.message}`
+        chatMessageList.appendChild(chatMessage);
+        chatMessageList.scrollTop = chatMessageList.scrollHeight;   // Scroll to bottom
+    });
+    
+    const messageInput = document.getElementById('message');
+    messageInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            const message = messageInput.value.trim();
+            if (message) {
+                socket.emit('chat', {
+                    message: messageInput.value,
+                    room: gameId,
+                });
+                messageInput.value = '';
+            }
         }
     });
 });

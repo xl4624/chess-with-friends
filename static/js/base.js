@@ -6,28 +6,18 @@ export function showMessage(type, message) {
     const element = document.getElementById(type);
     element.textContent = message;
     element.style.opacity = '1'
-    setTimeout(function() {
+
+    setTimeout(() => {
         element.style.opacity = '0';
     }, 3000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-
-    socket.on('info', function(data) {
-        if (data.message) {
-            showMessage('info', data.message);
-        }
-    });
-
-    socket.on('warning', function(data) {
-        if (data.message) {
-            showMessage('warning', data.message);
-        }
-    });
-
-    socket.on('error', function(data) {
-        if (data.message) {
-            showMessage('error', data.message);
-        }
+    ['info', 'warning', 'error'].forEach((type) => {
+        socket.on(type, (data) => {
+            if (data.message) {
+                showMessage(type, data.message);
+            }
+        });
     });
 });

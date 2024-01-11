@@ -14,16 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
             board.orientation('black');
         }
         board.position(game.fen());
-        populateMoves();
+        populateMoveHistory();
     });
 
     socket.on('move made', function(data) {
-        var move = game.move(data.move);
+        var moveMade = game.move(data.move);
         board.position(game.fen());
-        updateMoveHistory(move);
+        updateMoveHistory(moveMade)
     });
 
-    function populateMoves() {
+    function populateMoveHistory() {
         const moves = game.history({ verbose: true });
         let movesHtml = '';
 
@@ -35,12 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </tr>`;
         }
 
-        document.querySelector('.move-history-wrapper tbody').innerHTML = moveHistoryHtml;
+        document.querySelector('.move-history-wrapper tbody').innerHTML = movesHtml
     }
 
     function updateMoveHistory(move) {
         const tbody = document.querySelector('.move-history-wrapper tbody');
-        const moveNumber = Math.floor(game.history().length / 2);
+        const moveNumber = Math.floor(game.history().length / 2) + 1;
 
         
         // This condition is inverted because the move is made before this function is called

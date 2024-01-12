@@ -95,10 +95,9 @@ def socket_login_required(function):
     return wrapper
 
 
-# TODO: Implement
 def socket_room_required(function):
     """
-    Decorator to ensure that the room exists before joining it
+    Decorator to ensure that the room exists before joining it.
     """
     @wraps(function)
     def wrapper(*args, **kwargs):
@@ -111,4 +110,21 @@ def socket_room_required(function):
             kwargs["room"] = room
         return function(*args, **kwargs)
     return wrapper
-# def socket_game_exists(function):
+
+
+def socket_game_exists(function):
+    """
+    Decorator to ensure that game exists before accessing a socket.
+    """
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        game_id = kwargs.get("room")
+        game = db.session.get(Game, game_id)
+        if not game:
+            emit("error", {"message": "Game not found"})
+            return
+        if 'game' in signature(function).parameters:
+            kwargs["game"] = game
+        return function(*args, **kwargs)
+    return wrapper
+

@@ -9,13 +9,7 @@ from flask_socketio import emit, join_room
 
 from extensions import db, socketio
 from models import Game
-from utils.decorators import (
-    game_exists,
-    game_not_full,
-    login_required,
-    socket_login_required,
-    socket_room_required,
-)
+from utils.decorators import *
 
 games = Blueprint("games", __name__)
 
@@ -86,14 +80,15 @@ def list():
 
 
 @socketio.on("join")
-@socket_login_required
 @socket_room_required
-def join(data, *, room):
-    game = db.session.get(Game, room)
-    if not game:
-        emit("message", {"message": "Game not found"})
-        return
+@socket_game_exists
+def join(data, *, room, game):
+    """
+    Handle join events sent from the client and broadcast them to all users in the room.
 
+    :param data: Dictionary containing the room to send the message to.
+    :param room: UUID of the room provided by the @socket_room_required decorator.
+    """
     join_room(room)
 
     user_id = session.get("user_id")
@@ -101,18 +96,23 @@ def join(data, *, room):
 
     emit("joined", {"pgn": game.pgn(), "invert": invert})
 
+
 @socketio.on("move made")
 @socket_login_required
 @socket_room_required
-def move_made(data, *, user, room):
+@socket_game_exists
+def move_made(data, *, user, room, game):
+    """
+    Handle move made events sent from the client and broadcast them to all users in the room.
+
+    :param data: Dictionary containing the move to be made and the room to send the message to.
+    :param user: User object provided by the @socket_login_required decorator.
+    :param room: UUID of the room provided by the @socket_room_required decorator.
+    :param game: Game object provided by the @socket_game_exists decorator.
+    """
     move = data.get("move")
     if not move:
         emit("message", {"message": "Invalid data"})
-        return
-
-    game = db.session.get(Game, room)
-    if not game:
-        emit("error", {"message": "Game not found"})
         return
 
     if not game.contains_player(user.id):
@@ -142,20 +142,16 @@ def move_made(data, *, user, room):
 @socketio.on("chat")
 @socket_login_required
 @socket_room_required
-def chat(data, *, user, room):
+@socket_game_exists
+def chat(data, *, user, room, game):
     """
     Handle chat messages sent from the client and broadcast them to all users in the room.
 
     :param data: Dictionary containing the message and room to send the message to.
     :param user: User object provided by the @socket_login_required decorator.
-                 Represents the currently logged-in user.
+    :param room: UUID of the room provided by the @socket_room_required decorator.
+    :param game: Game object provided by the @socket_game_exists decorator.
     """
-    emit("message", {"message": room})
-    game = db.session.get(Game, room)
-    if not game:
-        emit("error", {"message": "Game not found"})
-        return
-
     message = data.get("message")
     if game.contains_player(user.id):
         emit("chat", {"username": user.username, "message": message}, to=room)
@@ -164,15 +160,18 @@ def chat(data, *, user, room):
 @socketio.on("draw")
 @socket_login_required
 @socket_room_required
-def draw(data, *, room):
+@socket_game_exists
+def draw(data, *, user, room, game):
     """
     Handle draw requests sent from the client and broadcast them to all users in the room.
 
     :param data: Dictionary containing the room to send the message to.
+    :param user: User object provided by the @socket_login_required decorator.
+    :param room: UUID of the room provided by the @socket_room_required decorator.
+    :param game: Game object provided by the @socket_game_exists decorator.
     """
-    game = db.session.get(Game, room)
-    if not game:
-        emit("error", {"message": "Game not found"})
+    if not game.contains_player(user.id):
+        emit("error", {"message": "You are not in this game"})
         return
 
     emit("draw", to=room)
@@ -181,19 +180,16 @@ def draw(data, *, room):
 @socketio.on("resign")
 @socket_login_required
 @socket_room_required
-def resign(data, *, user, room):
+@socket_game_exists
+def resign(data, *, user, room, game):
     """
     Handle resign requests sent from the client and broadcast them to all users in the room.
 
     :param data: Dictionary containing the room to send the message to.
     :param user: User object provided by the @socket_login_required decorator.
-                 Represents the currently logged-in user.
+    :param room: UUID of the room provided by the @socket_room_required decorator.
+    :param game: Game object provided by the @socket_game_exists decorator.
     """
-    game = db.session.get(Game, room)
-    if not game:
-        emit("error", {"message": "Game not found"})
-        return
-
     if not game.contains_player(user.id):
         emit("error", {"message": "You are not in this game"})
         return

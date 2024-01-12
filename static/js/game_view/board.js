@@ -82,10 +82,15 @@ function onDragStart(source, piece, position, orientation) {
 
 function onDrop(source, target) {
     try {
+        let promotion = null;
+        if (isPawnPromotion(source, target)) {
+            promotion = choosePromotion();
+            if (!promotion) return 'snapback';
+        }
         const move = game.move({
             from: source,
             to: target,
-            promotion: 'q', // Default to queen promotion for simplicity
+            promotion: promotion,
         });
         socket.emit('move made', {
             move: move.san,
@@ -101,3 +106,22 @@ function onSnapEnd() {
     board.position(game.fen());
 }
 
+function isPawnPromotion(source, target) {
+    const piece = game.get(source);
+    const sourceRank = source[1];
+    const targetRank = target[1];
+    return piece.type === 'p' && (
+        (piece.color === 'w' && sourceRank === '7' && targetRank === '8') ||
+        (piece.color === 'b' && sourceRank === '2' && targetRank === '1')
+    );
+}
+
+// For now, just ask the user in alert box
+function choosePromotion() {
+    const promotion = prompt('Choose a piece to promote to: Q, R, B, or N');
+    if (!promotion) return null;
+    if (promotion !== 'Q' && promotion !== 'R' && promotion !== 'B' && promotion !== 'N') {
+        return null;
+    }
+    return promotion.toLowerCase();
+}

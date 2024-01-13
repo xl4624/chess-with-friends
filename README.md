@@ -12,15 +12,16 @@ GRANT ALL PRIVILEGES ON DATABASE flask_api TO postgres;
 
 Create .env file using your info:
 ```
-DATABASE_HOST=localhost:5432
-DATABASE_NAME=flask_api
-DATABASE_USER=postgres
-DATABASE_PASSWORD=postgres
+POSTGRES_HOST=localhost:5432
+POSTGRES_NAME=flask_api
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
 ```
 
-Then run `pip install -r requirements.txt`.
+Then run `pip install -r requirements.txt` and `npm run install`.
 
-And then run `flask db upgrade` and then `npm run dev`.
+And then run `flask db upgrade` and then `npm run dev` to run the app in devlopment mode.
+If you want to run the app in production mode, run `docker compose build` and then `docker compose up` (with -d for detached mode).
 
 ## How it Works
 

@@ -17,8 +17,8 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
-        f"postgresql+psycopg2://{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}"
-        f"@{os.getenv('DATABASE_HOST')}/{os.getenv('DATABASE_NAME')}"
+        f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}"
+        f"@{os.getenv('POSTGRES_HOST')}/{os.getenv('POSTGRES_NAME')}"
     )
 
 

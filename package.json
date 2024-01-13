@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "cross-env FLASK_ENV=DEVELOPMENT npm-run-all --parallel dev:*",
     "dev:webpack": "webpack --mode development --watch",
-    "dev:server": "flask --app=app run --debug --host=localhost --port=3000",
-    "start": "cross-env FLASK_ENV=PRODUCTION webpack --mode production && python app.py",
+    "dev:server": "flask --app=app run --debug --port=3000",
+    "start": "webpack --mode production && cross-env FLASK_ENV=PRODUCTION flask --app=app run --host=0.0.0.0 --port=3000",
     "test": "cross-env FLASK_ENV=TESTING echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .js,.jsx ."
   },

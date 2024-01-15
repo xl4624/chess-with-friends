@@ -7,8 +7,8 @@ from flask import (
     redirect,
 )
 
-from extensions import db
-from models import User
+from src.extensions import db
+from src.models import User
 
 users = Blueprint("users", __name__)
 

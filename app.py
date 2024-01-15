@@ -3,12 +3,12 @@ from flask_migrate import Migrate
 from flask_uuid import FlaskUUID
 import os
 
-from extensions import db, socketio
-from views import games, users
-from config import DevelopmentConfig, ProductionConfig, TestingConfig
+from src.extensions import db, socketio
+from src.views import games, users
+from src.config import DevelopmentConfig, ProductionConfig, TestingConfig
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="src/templates", static_folder="src/static")
 
 match os.getenv("FLASK_ENV", "DEVELOPMENT"):
     case "DEVELOPMENT":

@@ -20,8 +20,9 @@ POSTGRES_PASSWORD=postgres
 
 Then run `pip install -r requirements.txt` and `npm run install`.
 
-And then run `flask db upgrade` and then `npm run dev` to run the app in devlopment mode.
-If you want to run the app in production mode, run `docker compose build` and then `docker compose up` (with -d for detached mode).
+And then run `flask db upgrade` and then `npm run dev` to run the app in development mode.
+
+If you want to test the docker image, run `docker compose build` and then `docker compose up` (with -d for detached mode) to start up a container.
 
 ## How it Works
 

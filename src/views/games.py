@@ -7,9 +7,9 @@ from flask import (
 )
 from flask_socketio import emit, join_room
 
-from extensions import db, socketio
-from models import Game
-from utils.decorators import *
+from src.extensions import db, socketio
+from src.models import Game
+from src.utils.decorators import *
 
 games = Blueprint("games", __name__)
 

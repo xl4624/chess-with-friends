@@ -3,8 +3,8 @@ from flask_socketio import emit
 from functools import wraps
 from inspect import signature
 
-from extensions import db
-from models import Game, User
+from src.extensions import db
+from src.models import Game, User
 
 
 ########################

@@ -3,7 +3,7 @@ from sqlalchemy.ext.mutable import MutableList
 import uuid
 import random
 
-from extensions import db
+from src.extensions import db
 
 
 class Game(db.Model):

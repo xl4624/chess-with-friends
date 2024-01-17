@@ -1,4 +1,4 @@
-# chess
+# Chess with Friends
 
 ## Setup
 Setup your postgresql database first.

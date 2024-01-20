@@ -12,6 +12,7 @@ class Game(db.Model):
     black_player_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
     player_count = db.Column(db.Integer, default=0)
     moves = db.Column(MutableList.as_mutable(ARRAY(db.String(7))), default=[])
+    is_ended = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f"<Game {self.id}>"

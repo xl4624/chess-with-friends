@@ -18,6 +18,7 @@
     "rules": {
         "max-len": ["warn", {"code": 120}],
         "indent": ["error", 4],
-        "object-curly-spacing": ["error", "always"]
+        "object-curly-spacing": ["error", "always"],
+        "require-jsdoc": "off"
     }
 }

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('start', () => {
-    // Refresh the page to trigger the active game view.
+        // Refresh the page to trigger the active game view.
         window.location.reload();
     });
 });

@@ -6,10 +6,14 @@ import { gameId } from './main.js';
 
 const game = new Chess();
 let board = null;
+let gameEnded = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     socket.on('joined', (data) => {
         game.loadPgn(data.pgn);
+        if (data.ended) {
+            gameEnded = true;
+        }
         if (data.invert) {
             board.orientation('black');
         }
@@ -21,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const moveMade = game.move(data.move);
         board.position(game.fen());
         addMoveToHistory(moveMade);
+    });
+
+    socket.on('victory', () => {
+        gameEnded = true;
+    });
+
+    socket.on('draw', () => {
+        gameEnded = true;
     });
 
     const config = {
@@ -72,7 +84,7 @@ function addMoveToHistory(move) {
 
 function onDragStart(source, piece, position, orientation) {
     // Do not pick up pieces if the game is over
-    if (game.isGameOver()) return false;
+    if (game.isGameOver() || gameEnded) return false;
 
     if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1)) {

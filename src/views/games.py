@@ -93,8 +93,9 @@ def join(data, *, room, game):
 
     user_id = session.get("user_id")
     invert = (user_id == game.black_player_id)  # Only invert for black player
+    ended = game.is_ended
 
-    emit("joined", {"pgn": game.pgn(), "invert": invert})
+    emit("joined", {"pgn": game.pgn(), "invert": invert, "ended": ended})
 
 
 @socketio.on("move made")
@@ -174,6 +175,8 @@ def draw(data, *, user, room, game):
         emit("error", {"message": "You are not in this game"})
         return
 
+    game.is_ended = True
+    db.session.commit()
     emit("draw", to=room)
 
 
@@ -194,5 +197,7 @@ def resign(data, *, user, room, game):
         emit("error", {"message": "You are not in this game"})
         return
 
+    game.is_ended = True
+    db.session.commit()
     winner = "white" if user.id == game.black_player_id else "black"
     emit("victory", {"winner": winner}, to=room)

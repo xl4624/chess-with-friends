@@ -1,7 +1,10 @@
 # Chess with Friends
 
-## Local Setup Instructions
+## Demo
+![demo](https://github.com/xl4624/chess-with-friends/assets/116298054/da102c8e-cc97-4b76-bb2f-1460af8f956b)
 
+
+## Local Setup Instructions
 1. Initialize the Database
 In your PostgreSQL console, run:
 ```
@@ -21,10 +24,7 @@ Start the application ins dev mode with `npm run dev`.
 
 To test the docker image, run `docker compose build` followed by `docker compose up` (add -d for detached mode) to start up a container.
 
-## How it Works
-
-### Game Mechanics
-
+## Game Mechanics
 Everyone viewing a chess game is going to have a chess.js instance running for client-side validation. When a spectator joins mid-game, we send all the moves and have them use `chess.js`'s `load_pgn()` to get the updated version of the game..
 
 - make a move
